@@ -4,7 +4,7 @@
   <title><![CDATA[Sgxiang]]></title>
   <link href="http://sgxiang.github.io/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-11T20:23:58+08:00</updated>
+  <updated>2013-11-11T20:29:15+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -83,6 +83,15 @@
 <p><strong> 如果定义了一个属性，那么应该用 self.propName 的形式来访问它， 而不是通过后端的实例变量(除非是在 init 方法，或者自定义的 getter 和 setter 方法中)。 </strong></p>
 
 <p>不用arc编译的加上-no-bojc-arc标签</p>
+
+<hr />
+
+<p>其他学习ARC文章:</p>
+
+<ul>
+<li><a href="https://developer.apple.com/library/ios/#releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html">苹果官方文档</a></li>
+</ul>
+
 ]]></content>
   </entry>
   
