@@ -74,6 +74,8 @@ __ 如果定义了一个属性，那么应该用 self.propName 的形式来访�
 
 _________
 
+整理自：[raywenderlich](http://www.raywenderlich.com/5677/beginning-arc-in-ios-5-part-1)
+
 其他学习ARC文章:
 
 * [苹果官方文档](https://developer.apple.com/library/ios/#releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html)
