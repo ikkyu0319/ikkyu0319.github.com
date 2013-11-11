@@ -7,7 +7,7 @@
 	<meta name="author" content="Sgxiang">
 
 	
-	<meta name="description" content="Nov 10th, 2013 oc基础 Comments Oc归档 writeToFile:atomically: NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@" &hellip;">
+	<meta name="description" content="Nov 11th, 2013 oc基础 Comments ARC基础 在手工内存管理中，需要retain一个对象让其可用。 在ARC中只需让一个指针指向那个对象。有变量指针指向那个对象，那么它就会一直存在内存中。 当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +89,107 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-11T20:22:00+08:00" data-updated="true" itemprop="datePublished">Nov 11<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ocji-chu/'>oc基础</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2013/11/11/arcji-chu/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/11/arcji-chu/" itemprop="url">ARC基础</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>在手工内存管理中，需要retain一个对象让其可用。</p>
+
+<p>在ARC中只需让一个指针指向那个对象。有变量指针指向那个对象，那么它就会一直存在内存中。</p>
+
+<p>当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。</p>
+
+<pre><code>NSString *firstName = self.textField.text;
+</code></pre>
+
+<p>firstName变量为文本框中内容字符串对象的所有者</p>
+
+<p>text属性也是所有者</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2011/10/Pointers2-500x265.png" alt="" /></p>
+
+<p>当用户输入新的文字时</p>
+
+<p>text&mdash;>新的</p>
+
+<p>firstName&mdash;>旧的</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2011/10/Pointers3-500x235.png" alt="" /></p>
+
+<p>当firstName &mdash;>新值或者超出作用范围的时候，字符串对象才会被释放</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2011/10/Pointers4-500x198.png" alt="" /></p>
+
+<p>firstName和textFiled.text为strong的类型指针。默认所有变量都是strong指针。</p>
+
+<pre><code>__weak NSString *weakName = self.textFiled.text;
+</code></pre>
+
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2011/10/Pointers5-500x241.png" alt="" /></p>
+
+<p>weak指针类型不能成为所有者，当文本框的内容改变了，那么字符串对象就会被释放。</p>
+
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2011/10/Pointers6-500x209.png" alt="" /></p>
+
+<p>weak大多在两个父子关系对象上比较有用。</p>
+
+<p>父对象有个strong指针指向子对象，为了防止关系循环，子对象仅仅有一个weak指针指向父对象。</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2011/10/Pointers7-500x212.png" alt="" /></p>
+
+<p><strong>  ARC 在适当的位置处理了 retain 和 release，仍然存在一些情况，需要手动的把这些指针设置为 nil，不然应用将会耗尽可用内存。如果一直保持所有创建的对象都存活，那么 ARC 将不能释放他们。 因此，当创建一个新对象的时候，需要考虑谁拥有它，还有这个对象应该存活多久。 </strong></p>
+
+<hr />
+
+<ul>
+<li><p><strong> strong </strong> “retain” 的一个代号。会成为它所指对象的所有者。</p></li>
+<li><p><strong> weak </strong> 弱引用指针。它指向的对象被销毁时，它会被自动的设置成 nil。</p></li>
+<li><p><strong> unsafe_unretained </strong> 等同“assign” 。</p></li>
+<li><p><strong> copy </strong> 它创建一个对象的拷贝，并且创建一个强引用关系。</p></li>
+<li><p><strong> assign </strong> 不允许在对象上用这个修饰符， 但仍然能在简单类型的值，比如 BOOL,int 和 float 中用到它。</p></li>
+</ul>
+
+
+<hr />
+
+<pre><code>@property(nonatomic,strong,readonly)NSString *result;
+</code></pre>
+
+<p><strong> 如果定义了一个属性，那么应该用 self.propName 的形式来访问它， 而不是通过后端的实例变量(除非是在 init 方法，或者自定义的 getter 和 setter 方法中)。 </strong></p>
+
+<p>不用arc编译的加上-no-bojc-arc标签</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

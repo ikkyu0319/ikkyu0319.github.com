@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>about-me - Sgxiang</title>
+	<title>ARC基础 - Sgxiang</title>
 	<meta name="author" content="Sgxiang">
 
 	
-	<meta name="description" content="92年 Contact me : e-mail : &#115;&#x67;&#x78;&#105;&#x61;&#x6e;&#x67;&#x31;&#x39;&#x39;&#50;&#64;&#x69;&#x63;&#x6c;&#111;&#117;&#x64;&#x2e;&#x63;&# &hellip;">
+	<meta name="description" content="ARC基础 在手工内存管理中，需要retain一个对象让其可用。 在ARC中只需让一个指针指向那个对象。有变量指针指向那个对象，那么它就会一直存在内存中。 当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。 NSString *firstName = self.textField &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -17,7 +17,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="Sgxiang" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://sgxiang.github.io/aboutme/">
+	<link rel="canonical" href="http://sgxiang.github.io/blog/2013/11/11/arcji-chu/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -87,30 +87,75 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner"><article class="page">
-    
-    <h1 class="title">About-me</h1>
-    
-    <div class="entry-content"><br>        
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">ARC基础</h1>
+	<div class="entry-content" itemprop="articleBody"><p>在手工内存管理中，需要retain一个对象让其可用。</p>
+
+<p>在ARC中只需让一个指针指向那个对象。有变量指针指向那个对象，那么它就会一直存在内存中。</p>
+
+<p>当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。</p>
+
+<pre><code>NSString *firstName = self.textField.text;
+</code></pre>
+
+<p>firstName变量为文本框中内容字符串对象的所有者</p>
+
+<p>text属性也是所有者</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2011/10/Pointers2-500x265.png" alt="" /></p>
+
+<p>当用户输入新的文字时</p>
+
+<p>text&mdash;>新的</p>
+
+<p>firstName&mdash;>旧的</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2011/10/Pointers3-500x235.png" alt="" /></p>
+
+<p>当firstName &mdash;>新值或者超出作用范围的时候，字符串对象才会被释放</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2011/10/Pointers4-500x198.png" alt="" /></p>
+
+<p>firstName和textFiled.text为strong的类型指针。默认所有变量都是strong指针。</p>
+
+<pre><code>__weak NSString *weakName = self.textFiled.text;
+</code></pre>
+
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2011/10/Pointers5-500x241.png" alt="" /></p>
+
+<p>weak指针类型不能成为所有者，当文本框的内容改变了，那么字符串对象就会被释放。</p>
+
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2011/10/Pointers6-500x209.png" alt="" /></p>
+
+<p>weak大多在两个父子关系对象上比较有用。</p>
+
+<p>父对象有个strong指针指向子对象，为了防止关系循环，子对象仅仅有一个weak指针指向父对象。</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2011/10/Pointers7-500x212.png" alt="" /></p>
+
+<p><strong>  ARC 在适当的位置处理了 retain 和 release，仍然存在一些情况，需要手动的把这些指针设置为 nil，不然应用将会耗尽可用内存。如果一直保持所有创建的对象都存活，那么 ARC 将不能释放他们。 因此，当创建一个新对象的时候，需要考虑谁拥有它，还有这个对象应该存活多久。 </strong></p>
+
+<hr />
+
+<ul>
+<li><p><strong> strong </strong> “retain” 的一个代号。会成为它所指对象的所有者。</p></li>
+<li><p><strong> weak </strong> 弱引用指针。它指向的对象被销毁时，它会被自动的设置成 nil。</p></li>
+<li><p><strong> unsafe_unretained </strong> 等同“assign” 。</p></li>
+<li><p><strong> copy </strong> 它创建一个对象的拷贝，并且创建一个强引用关系。</p></li>
+<li><p><strong> assign </strong> 不允许在对象上用这个修饰符， 但仍然能在简单类型的值，比如 BOOL,int 和 float 中用到它。</p></li>
+</ul>
 
 
-<p>92年</p>
+<hr />
 
-<br><br>
+<pre><code>@property(nonatomic,strong,readonly)NSString *result;
+</code></pre>
 
+<p><strong> 如果定义了一个属性，那么应该用 self.propName 的形式来访问它， 而不是通过后端的实例变量(除非是在 init 方法，或者自定义的 getter 和 setter 方法中)。 </strong></p>
 
-<p><strong>Contact me :</strong></p>
-
-<p>e-mail : <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#115;&#x67;&#x78;&#x69;&#x61;&#x6e;&#x67;&#x31;&#57;&#x39;&#50;&#64;&#105;&#x63;&#x6c;&#111;&#117;&#x64;&#46;&#99;&#x6f;&#x6d;">&#115;&#x67;&#x78;&#105;&#x61;&#x6e;&#x67;&#x31;&#x39;&#x39;&#50;&#64;&#x69;&#x63;&#x6c;&#111;&#117;&#x64;&#x2e;&#x63;&#111;&#109;</a></p>
-
-<p>github : <a href="https://github.com/sgxiang">https://github.com/sgxiang</a></p>
-
-<p>weibo: <a href="http://weibo.com/xsxiang/" title="Yaashion_向">@Yaashion_向</a></p>
-
-<p>wechat : sgxiang</p>
-
-<p><img src="http://sgxiang.github.io/images/wechat.png" width=200></p>
+<p>不用arc编译的加上-no-bojc-arc标签</p>
 </div>
+
 </article>
 
 	<div class="share">
@@ -135,7 +180,6 @@
     <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
 </section>
-
 </div>
 			</div>
 			<footer id="footer" class="inner"><p>
@@ -158,8 +202,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sgxiang.github.io/aboutme/index.html';
-        var disqus_url = 'http://sgxiang.github.io/aboutme/index.html';
+        var disqus_identifier = 'http://sgxiang.github.io/blog/2013/11/11/arcji-chu/';
+        var disqus_url = 'http://sgxiang.github.io/blog/2013/11/11/arcji-chu/';
         var disqus_script = 'embed.js';
       
     (function () {
