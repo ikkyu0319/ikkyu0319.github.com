@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: github | Sgxiang]]></title>
+  <link href="http://sgxiang.github.io/blog/categories/github/atom.xml" rel="self"/>
+  <link href="http://sgxiang.github.io/"/>
+  <updated>2013-11-11T11:56:13+08:00</updated>
+  <id>http://sgxiang.github.io/</id>
+  <author>
+    <name><![CDATA[Sgxiang]]></name>
+    <email><![CDATA[sgxiang1992@icloud.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[github相关]]></title>
+    <link href="http://sgxiang.github.io/blog/2013/11/08/githubxiang-guan/"/>
+    <updated>2013-11-08T01:10:00+08:00</updated>
+    <id>http://sgxiang.github.io/blog/2013/11/08/githubxiang-guan</id>
+    <content type="html"><![CDATA[<p>整理来源：<strong><em> <a href="http://www.worldhello.net/gotgithub/index.html">http://www.worldhello.net/gotgithub/index.html</a> </em></strong></p>
+
+<pre><code>$ ssh -T git@github.com    //检测连接github shh服务命令
+</code></pre>
+
+<h4>【clone】</h4>
+
+<pre><code>$ git clone git@github.com:gotgithub/helloworld.git
+$ git add README.md
+$ git commit -m "README for this project"
+$ git push origin master
+</code></pre>
+
+<h4>【新建】</h4>
+
+<pre><code>$ git init
+$ git add README.md
+$ git commit -m "readme for thisproject"
+$ git remote add origin git@github.com:sgxiang/some.git
+$ git push -u origin master
+</code></pre>
+
+<h4>【信息】</h4>
+
+<pre><code>$ git config user.name "sgxiang"
+$ git config user.email "sgxiang1992@icloud.com”
+</code></pre>
+
+<h4>【分支】</h4>
+
+<pre><code>$ git checkout -b mybranch  //新建分支并切换
+$ touch hello1
+$ git add hello1
+$ git commit -m "add hello1 for mybranch"
+$ git push -u origin my branch
+</code></pre>
+
+<h4>【删除分支】</h4>
+
+<pre><code>$ git checkout master
+$ git branch -D mybranch    //删除本地的
+$ git push origin :mybranch    //删除远程的
+</code></pre>
+
+<h4>【里程碑】</h4>
+
+<p>轻量里程碑 <code>git tag &lt;tagname&gt; [&lt;commit&gt;]</code></p>
+
+<p>带说明的里程碑 <code>git tag -a &lt;tagname&gt; [&lt;commit&gt;]</code></p>
+
+<p>带签名的里程碑 <code>git tag -s &lt;tagname&gt; [&lt;commit&gt;]</code></p>
+
+<p>例子：</p>
+
+<pre><code>$ touch hello1
+$ git add hello1
+$git commit -m “add hello1"
+$ git tag -m "tag on initial commit" mytag1 HEAD^
+$ git tag -m “tag on new commit” mytag2
+$ git tag mytag3
+$ git push origin refs/tags/*
+</code></pre>
+
+<p>删除本地里程碑  <code>$ git tag -d mytag3</code></p>
+
+<p>删除远程里程碑  <code>$ git push origin :mytag3</code></p>
+
+<h4>【创建项目主页】</h4>
+
+<p>在版本库中创建一个名为gh-pages的分支然后添加静态网页即可</p>
+
+<p>通过sgxiang.github.io/&lt;项目名>访问</p>
+
+<p><strong><em> 创建纯净的分支不继承master </em></strong></p>
+
+<p>[1]</p>
+
+<pre><code>$ git checkout -b gh-pages
+$ rm .git/index
+$ printf "hello world" &gt;index.html
+$ git add index.html
+$ git reset —hard $(echo “branch gh-pages init.” | git commit-tree $(git write-tree))  //用git底层创建根提交，重置gh-pages
+$ git push -u origin gh-pages
+</code></pre>
+
+<p>[2]</p>
+
+<pre><code>$ git symbolic-ref HEAD refs/heads/gh-pages
+$ rm .git/index
+$ printf "hello” &gt;index.html
+$ git add index.html
+$ git commit -m "branch gh-pages init"
+$ git push -u origin gh-pages
+</code></pre>
+
+<p>[3]</p>
+
+<pre><code>$ git init ../helloworld-web
+$ cd ../helloworld-web
+$ printf "hello" &gt;index.html
+$ git add index.html
+$ git commit -m "branch gh-pages init"
+$ cd ../helloworld
+$ git fetch ../helloworld-web
+$ git checkout -b gh-pages FETCH_HEAD
+$ git push -u origin gh-pages
+</code></pre>
+
+<p>[4]</p>
+
+<p>在项目管理页面勾选github pages会自动创建，检出定制</p>
+
+<pre><code>$ git fetch
+$ git checkout gh-pages
+</code></pre>
+
+<h4>【合并收到的pull request】</h4>
+
+<pre><code>$ git remote add newPull https://github.com/newPull/newP.git
+$ git fetch newP From https://github.com/newPull/newP
+$ git merge newP/master
+$ git log -graph -2
+$ git push
+</code></pre>
+
+<h4>【共享版本库】</h4>
+
+<p>在一个用户提交之后，另一个用户应该获取新提交再本地提交合并</p>
+
+<pre><code>$ git fetch 
+$ git merge
+</code></pre>
+
+<p><strong><em> $ git pull = git fetch + git merge </em></strong></p>
+
+<p>遇到冲突  <code>$ git mergetool</code> 工具解决</p>
+
+<p>恢复  <code>$ git reset —hard</code></p>
+
+<p><strong><em> 除了合并操作还有变基操作 </em></strong></p>
+
+<pre><code>$ git fetch origin  //获取远程版本库的提交到本地的远程分支
+$ git rebase origin/master //将本地master分支的提交变基到新的远程分支中
+$ git push 
+// git pull —rebase
+// git config branch.master.rebase true
+// git config —global branch.autosetuprebase true
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: oc基础 | Sgxiang]]></title>
+  <link href="http://sgxiang.github.io/blog/categories/ocji-chu/atom.xml" rel="self"/>
+  <link href="http://sgxiang.github.io/"/>
+  <updated>2013-11-11T11:56:13+08:00</updated>
+  <id>http://sgxiang.github.io/</id>
+  <author>
+    <name><![CDATA[Sgxiang]]></name>
+    <email><![CDATA[sgxiang1992@icloud.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[oc归档]]></title>
+    <link href="http://sgxiang.github.io/blog/2013/11/10/ocgui-dang/"/>
+    <updated>2013-11-10T22:53:00+08:00</updated>
+    <id>http://sgxiang.github.io/blog/2013/11/10/ocgui-dang</id>
+    <content type="html"><![CDATA[<h3>writeToFile:atomically:</h3>
+
+<pre><code>NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText", nil];
+
+if ([glossary writeToFile:@"glossary" atomically:YES]==NO) {
+    NSLog(@"save to file failed");
+}else{
+    NSLog(@"succeed");
+}
+
+NSDictionary *gly =  [NSDictionary dictionaryWithContentsOfFile:@"glossary"];
+
+for (NSString *key in gly) {
+    NSLog(@"%@:%@",key,[glossary objectForKey:key]);
+}
+</code></pre>
+
+<h3>NSKeyedArchiver</h3>
+
+<pre><code>NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText", nil];
+
+
+[NSKeyedArchiver archiveRootObject:glossary toFile:@"glossary.archive"];
+
+NSDictionary *read = [NSKeyedUnarchiver unarchiveObjectWithFile:@"glossary.archive"];
+
+for (NSString *key in read) {
+    NSLog(@"%@:%@",key,[glossary objectForKey:key]);
+}
+</code></pre>
+
+<h3>归档自定义对象</h3>
+
+<h5>对象要实现NSCoding协议和encodeWithCoder:及initWithCoder:方法</h5>
+
+<pre><code>-(void)encodeWithCoder:(NSCoder *)aCoder{
+    [aCoder encodeObject:_name forKey:@"name"];
+    [aCoder encodeInt:_age forKey:@"age"];
+}
+
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    _name = [aDecoder decodeObjectForKey:@"name"];
+    _age = [aDecoder decodeIntForKey:@"age"];
+
+    return self;
+}
+</code></pre>
+
+<h3>使用NSData</h3>
+
+<pre><code>NSMutableData *dataArea = [NSMutableData data];
+NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc]initForWritingWithMutableData:dataArea];
+
+[archiver encodeObject: forKey:];
+[archiver finishEncoding];
+
+[dataArea writeToFile: atomically:];
+</code></pre>
+
+<p>读取的时候</p>
+
+<pre><code>NSMutableData *dataArea = [NSMutableData data];
+NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc]initForReadingWithData:dataArea];
+
+test = [unarchiver decodeObjectForKey:];
+
+[unarchiver finishDecoding];
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
