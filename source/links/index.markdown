@@ -33,7 +33,7 @@ footer: true
 
 
 [1]: http://www.imallen.com "I'm Allen"
-[2]: http://www.cnblogs.com/biosli "唐巧"
+[2]: http://blog.devtang.com "唐巧"
 [3]: http://www.onevcat.com "Onevcat"
 [4]: http://www.objc.io "objc"
 [5]: http://github.ibireme.com/github/list/ios/ "github-ios"
