@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Sgxiang]]></title>
   <link href="http://sgxiang.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-12T16:01:00+08:00</updated>
+  <updated>2013-11-12T16:19:28+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -19,6 +19,15 @@
     <updated>2013-11-08T01:10:00+08:00</updated>
     <id>http://sgxiang.github.io/blog/2013/11/08/githubxiang-guan</id>
     <content type="html"><![CDATA[<p>整理来源：<strong><em> <a href="http://www.worldhello.net/gotgithub/index.html">http://www.worldhello.net/gotgithub/index.html</a> </em></strong></p>
+
+<p><strong>一张git操作的思维导图：</strong></p>
+
+<ul>
+<li><a href="http://sgxiang.github.io/images/git.png">下载</a></li>
+</ul>
+
+
+<hr />
 
 <pre><code>$ ssh -T git@github.com    //检测连接github shh服务命令
 </code></pre>
