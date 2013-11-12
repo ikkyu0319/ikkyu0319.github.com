@@ -32,6 +32,8 @@ categories: Octopress
 
 安装成功后通过`brew install`查看brew版本
 
+<!--more-->
+
 ###安装ruby
     brew install rbenv
     brew install ruby-build

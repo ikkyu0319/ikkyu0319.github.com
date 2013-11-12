@@ -23,6 +23,8 @@ categories: oc基础
     	NSLog(@"%@:%@",key,[glossary objectForKey:key]);
 	}
 
+<!--more-->
+
 ###NSKeyedArchiver
 
 

@@ -20,6 +20,8 @@ text属性也是所有者
 
 ![](http://cdn5.raywenderlich.com/wp-content/uploads/2011/10/Pointers2-500x265.png)
 
+<!--more-->
+
 当用户输入新的文字时
 
 text-->新的

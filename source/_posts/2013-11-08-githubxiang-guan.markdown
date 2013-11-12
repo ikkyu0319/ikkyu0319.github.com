@@ -31,6 +31,8 @@ categories: git
 	$ git push -u origin master
 
 
+<!--more-->
+
 ####移除文件
     $rm test.txt
     $git rm.test.txt
