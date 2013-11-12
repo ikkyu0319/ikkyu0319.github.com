@@ -4,7 +4,7 @@
   <title><![CDATA[Sgxiang]]></title>
   <link href="http://sgxiang.github.io/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-11T22:48:06+08:00</updated>
+  <updated>2013-11-12T10:15:38+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -174,7 +174,7 @@ test = [unarchiver decodeObjectForKey:];
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[github相关]]></title>
+    <title type="html"><![CDATA[git相关]]></title>
     <link href="http://sgxiang.github.io/blog/2013/11/08/githubxiang-guan/"/>
     <updated>2013-11-08T01:10:00+08:00</updated>
     <id>http://sgxiang.github.io/blog/2013/11/08/githubxiang-guan</id>
@@ -200,10 +200,40 @@ $ git remote add origin git@github.com:sgxiang/some.git
 $ git push -u origin master
 </code></pre>
 
+<h4>移除文件</h4>
+
+<pre><code>$rm test.txt
+$git rm.test.txt
+</code></pre>
+
+<p>如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f，以防误删除文件后丢失修改的内容。</p>
+
+<p>仅删除仓库中的 <code>$ git rm --cached test.txt</code></p>
+
+<h5>重命名文件</h5>
+
+<pre><code>$ git mv oldName newName
+//相当于
+//$ mv oldName newName
+//$ git rm oldName
+//$ git add newName
+</code></pre>
+
 <h4>【信息】</h4>
 
 <pre><code>$ git config user.name "sgxiang"
 $ git config user.email "sgxiang1992@icloud.com”
+</code></pre>
+
+<h4>撤销操作</h4>
+
+<pre><code>$ git reset HEAD test.txt
+</code></pre>
+
+<h4>远程仓库</h4>
+
+<pre><code>$ git remote -v  //查看
+$ git remote add name gitURL //添加
 </code></pre>
 
 <h4>【分支】</h4>
@@ -213,7 +243,10 @@ $ touch hello1
 $ git add hello1
 $ git commit -m "add hello1 for mybranch"
 $ git push -u origin my branch
+//$ git merge hotfix合并分支
 </code></pre>
+
+<p><img src="http://git.oschina.net/progit/figures/18333fig0309-tn.png" alt="" /></p>
 
 <h4>【删除分支】</h4>
 

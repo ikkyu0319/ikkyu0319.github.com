@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>github相关 - Sgxiang</title>
+	<title>git相关 - Sgxiang</title>
 	<meta name="author" content="Sgxiang">
 
 	
-	<meta name="description" content="Github相关 整理来源： http://www.worldhello.net/gotgithub/index.html $ ssh -T git@github.com //检测连接github shh服务命令 【clone】 $ git clone git@github.com: &hellip;">
+	<meta name="description" content="Git相关 整理来源： http://www.worldhello.net/gotgithub/index.html $ ssh -T git@github.com //检测连接github shh服务命令 【clone】 $ git clone git@github.com:gotgithub &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,7 +88,7 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Github相关</h1>
+	<h1 class="title" itemprop="name">Git相关</h1>
 	<div class="entry-content" itemprop="articleBody"><p>整理来源：<strong><em> <a href="http://www.worldhello.net/gotgithub/index.html">http://www.worldhello.net/gotgithub/index.html</a> </em></strong></p>
 
 <pre><code>$ ssh -T git@github.com    //检测连接github shh服务命令
@@ -111,10 +111,40 @@ $ git remote add origin git@github.com:sgxiang/some.git
 $ git push -u origin master
 </code></pre>
 
+<h4>移除文件</h4>
+
+<pre><code>$rm test.txt
+$git rm.test.txt
+</code></pre>
+
+<p>如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f，以防误删除文件后丢失修改的内容。</p>
+
+<p>仅删除仓库中的 <code>$ git rm --cached test.txt</code></p>
+
+<h5>重命名文件</h5>
+
+<pre><code>$ git mv oldName newName
+//相当于
+//$ mv oldName newName
+//$ git rm oldName
+//$ git add newName
+</code></pre>
+
 <h4>【信息】</h4>
 
 <pre><code>$ git config user.name "sgxiang"
 $ git config user.email "sgxiang1992@icloud.com”
+</code></pre>
+
+<h4>撤销操作</h4>
+
+<pre><code>$ git reset HEAD test.txt
+</code></pre>
+
+<h4>远程仓库</h4>
+
+<pre><code>$ git remote -v  //查看
+$ git remote add name gitURL //添加
 </code></pre>
 
 <h4>【分支】</h4>
@@ -124,7 +154,10 @@ $ touch hello1
 $ git add hello1
 $ git commit -m "add hello1 for mybranch"
 $ git push -u origin my branch
+//$ git merge hotfix合并分支
 </code></pre>
+
+<p><img src="http://git.oschina.net/progit/figures/18333fig0309-tn.png" alt="" /></p>
 
 <h4>【删除分支】</h4>
 
