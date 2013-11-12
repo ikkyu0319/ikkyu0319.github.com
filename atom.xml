@@ -4,7 +4,7 @@
   <title><![CDATA[Sgxiang]]></title>
   <link href="http://sgxiang.github.io/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-12T10:15:38+08:00</updated>
+  <updated>2013-11-12T13:46:07+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -32,6 +32,9 @@
 <p>text属性也是所有者</p>
 
 <p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2011/10/Pointers2-500x265.png" alt="" /></p>
+
+<!--more-->
+
 
 <p>当用户输入新的文字时</p>
 
@@ -119,6 +122,9 @@ for (NSString *key in gly) {
 }
 </code></pre>
 
+<!--more-->
+
+
 <h3>NSKeyedArchiver</h3>
 
 <pre><code>NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText", nil];
@@ -199,6 +205,9 @@ $ git commit -m "readme for thisproject"
 $ git remote add origin git@github.com:sgxiang/some.git
 $ git push -u origin master
 </code></pre>
+
+<!--more-->
+
 
 <h4>移除文件</h4>
 
@@ -395,6 +404,9 @@ export PATH=/usr/local/bin:$PATH
 </code></pre>
 
 <p>安装成功后通过<code>brew install</code>查看brew版本</p>
+
+<!--more-->
+
 
 <h3>安装ruby</h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Sgxiang]]></title>
   <link href="http://sgxiang.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-12T10:15:38+08:00</updated>
+  <updated>2013-11-12T13:46:07+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -46,6 +46,9 @@ export PATH=/usr/local/bin:$PATH
 </code></pre>
 
 <p>安装成功后通过<code>brew install</code>查看brew版本</p>
+
+<!--more-->
+
 
 <h3>安装ruby</h3>
 
