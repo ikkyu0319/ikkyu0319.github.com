@@ -90,8 +90,12 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name: sgxiang
-disqus_show_comment_count: true
+disqus_short_name: 
+disqus_show_comment_count: 
+
+# duoshuo comments
+duoshuo_comments: true
+duoshuo_short_name: sgxiang
 
 # Google Analytics
 google_analytics_tracking_id: UA-45650951-1
