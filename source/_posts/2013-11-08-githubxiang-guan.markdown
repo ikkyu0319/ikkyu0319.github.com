@@ -7,6 +7,12 @@ categories: git
 ---
 整理来源：___ http://www.worldhello.net/gotgithub/index.html ___
 
+__一张git操作的思维导图：__ 
+
+* [下载](http://sgxiang.github.io/images/git.png)
+
+_______
+
 
 	$ ssh -T git@github.com    //检测连接github shh服务命令
 
