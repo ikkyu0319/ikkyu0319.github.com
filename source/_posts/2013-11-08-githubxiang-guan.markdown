@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "github相关"
+title: "git相关"
 date: 2013-11-08 01:10
 comments: true
-categories: github
+categories: git
 ---
 整理来源：___ http://www.worldhello.net/gotgithub/index.html ___
 
@@ -31,7 +31,21 @@ categories: github
 	$ git push -u origin master
 
 
+####移除文件
+    $rm test.txt
+    $git rm.test.txt
 
+如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f，以防误删除文件后丢失修改的内容。
+
+仅删除仓库中的 `$ git rm --cached test.txt`
+
+#####重命名文件
+    
+    $ git mv oldName newName
+    //相当于
+    //$ mv oldName newName
+    //$ git rm oldName
+    //$ git add newName
 
 ####【信息】
 
@@ -39,7 +53,14 @@ categories: github
 	$ git config user.name "sgxiang"
 	$ git config user.email "sgxiang1992@icloud.com”
 
+####撤销操作
 
+	$ git reset HEAD test.txt
+	
+####远程仓库
+
+	$ git remote -v  //查看
+	$ git remote add name gitURL //添加
 
 
 ####【分支】
@@ -50,7 +71,9 @@ categories: github
 	$ git add hello1
 	$ git commit -m "add hello1 for mybranch"
 	$ git push -u origin my branch
-
+	//$ git merge hotfix合并分支
+	
+![](http://git.oschina.net/progit/figures/18333fig0309-tn.png)
 
 ####【删除分支】
 
