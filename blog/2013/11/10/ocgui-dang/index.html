@@ -7,7 +7,20 @@
 	<meta name="author" content="Sgxiang">
 
 	
-	<meta name="description" content="Oc归档 writeToFile:atomically: NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText &hellip;">
+	<meta name="description" content="Oc归档 writeToFile:atomically: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@&quot;TestClass&quot &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,75 +104,125 @@
 	<h1 class="title" itemprop="name">Oc归档</h1>
 	<div class="entry-content" itemprop="articleBody"><h3>writeToFile:atomically:</h3>
 
-<pre><code>NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText", nil];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">glossary</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys:</span><span class="s">@&quot;TestClass&quot;</span><span class="p">,</span><span class="s">@&quot;className&quot;</span><span class="p">,</span><span class="s">@&quot;TestText&quot;</span><span class="p">,</span><span class="s">@&quot;classText&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">([</span><span class="n">glossary</span> <span class="nl">writeToFile:</span><span class="s">@&quot;glossary&quot;</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">]</span><span class="o">==</span><span class="n">NO</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;save to file failed&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;succeed&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">gly</span> <span class="o">=</span>  <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithContentsOfFile:</span><span class="s">@&quot;glossary&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="k">in</span> <span class="n">gly</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@:%@&quot;</span><span class="p">,</span><span class="n">key</span><span class="p">,[</span><span class="n">glossary</span> <span class="nl">objectForKey:</span><span class="n">key</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-if ([glossary writeToFile:@"glossary" atomically:YES]==NO) {
-    NSLog(@"save to file failed");
-}else{
-    NSLog(@"succeed");
-}
-
-NSDictionary *gly =  [NSDictionary dictionaryWithContentsOfFile:@"glossary"];
-
-for (NSString *key in gly) {
-    NSLog(@"%@:%@",key,[glossary objectForKey:key]);
-}
-</code></pre>
 
 <!--more-->
 
 
 <h3>NSKeyedArchiver</h3>
 
-<pre><code>NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText", nil];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">glossary</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys:</span><span class="s">@&quot;TestClass&quot;</span><span class="p">,</span><span class="s">@&quot;className&quot;</span><span class="p">,</span><span class="s">@&quot;TestText&quot;</span><span class="p">,</span><span class="s">@&quot;classText&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">NSKeyedArchiver</span> <span class="nl">archiveRootObject:</span><span class="n">glossary</span> <span class="nl">toFile:</span><span class="s">@&quot;glossary.archive&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">read</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSKeyedUnarchiver</span> <span class="nl">unarchiveObjectWithFile:</span><span class="s">@&quot;glossary.archive&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="k">in</span> <span class="n">read</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@:%@&quot;</span><span class="p">,</span><span class="n">key</span><span class="p">,[</span><span class="n">glossary</span> <span class="nl">objectForKey:</span><span class="n">key</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-
-[NSKeyedArchiver archiveRootObject:glossary toFile:@"glossary.archive"];
-
-NSDictionary *read = [NSKeyedUnarchiver unarchiveObjectWithFile:@"glossary.archive"];
-
-for (NSString *key in read) {
-    NSLog(@"%@:%@",key,[glossary objectForKey:key]);
-}
-</code></pre>
 
 <h3>归档自定义对象</h3>
 
 <h5>对象要实现NSCoding协议和encodeWithCoder:及initWithCoder:方法</h5>
 
-<pre><code>-(void)encodeWithCoder:(NSCoder *)aCoder{
-    [aCoder encodeObject:_name forKey:@"name"];
-    [aCoder encodeInt:_age forKey:@"age"];
-}
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">encodeWithCoder:</span><span class="p">(</span><span class="n">NSCoder</span> <span class="o">*</span><span class="p">)</span><span class="nv">aCoder</span><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="n">aCoder</span> <span class="nl">encodeObject:</span><span class="n">_name</span> <span class="nl">forKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">aCoder</span> <span class="nl">encodeInt:</span><span class="n">_age</span> <span class="nl">forKey:</span><span class="s">@&quot;age&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>  
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithCoder:</span><span class="p">(</span><span class="n">NSCoder</span> <span class="o">*</span><span class="p">)</span><span class="nv">aDecoder</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">aDecoder</span> <span class="nl">decodeObjectForKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">_age</span> <span class="o">=</span> <span class="p">[</span><span class="n">aDecoder</span> <span class="nl">decodeIntForKey:</span><span class="s">@&quot;age&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
--(id)initWithCoder:(NSCoder *)aDecoder{
-    _name = [aDecoder decodeObjectForKey:@"name"];
-    _age = [aDecoder decodeIntForKey:@"age"];
-
-    return self;
-}
-</code></pre>
 
 <h3>使用NSData</h3>
 
-<pre><code>NSMutableData *dataArea = [NSMutableData data];
-NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc]initForWritingWithMutableData:dataArea];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSMutableData</span> <span class="o">*</span><span class="n">dataArea</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSKeyedArchiver</span> <span class="o">*</span><span class="n">archiver</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSKeyedArchiver</span> <span class="n">alloc</span><span class="p">]</span><span class="nl">initForWritingWithMutableData:</span><span class="n">dataArea</span><span class="p">];</span>
+</span><span class='line'>  
+</span><span class='line'><span class="p">[</span><span class="n">archiver</span> <span class="nl">encodeObject:</span><span class="n">_name</span> <span class="nl">forKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">archiver</span> <span class="n">finishEncoding</span><span class="p">];</span>
+</span><span class='line'>  
+</span><span class='line'><span class="p">[</span><span class="n">dataArea</span> <span class="nl">writeToFile:</span><span class="s">@&quot;fileName&quot;</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
-[archiver encodeObject: forKey:];
-[archiver finishEncoding];
 
-[dataArea writeToFile: atomically:];
-</code></pre>
+<p></p>
 
 <p>读取的时候</p>
 
-<pre><code>NSMutableData *dataArea = [NSMutableData data];
-NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc]initForReadingWithData:dataArea];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSMutableData</span> <span class="o">*</span><span class="n">dataArea</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSKeyedUnarchiver</span> <span class="o">*</span><span class="n">unarchiver</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSKeyedUnarchiver</span> <span class="n">alloc</span><span class="p">]</span><span class="nl">initForReadingWithData:</span><span class="n">dataArea</span><span class="p">];</span>
+</span><span class='line'>  
+</span><span class='line'><span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="n">unarchiver</span> <span class="nl">decodeObjectForKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+</span><span class='line'>  
+</span><span class='line'><span class="p">[</span><span class="n">unarchiver</span> <span class="n">finishDecoding</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
-test = [unarchiver decodeObjectForKey:];
-
-[unarchiver finishDecoding];
-</code></pre>
 </div>
 
 </article>

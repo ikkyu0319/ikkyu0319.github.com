@@ -7,7 +7,7 @@
 	<meta name="author" content="Sgxiang">
 
 	
-	<meta name="description" content="Nov 11th, 2013 oc基础 Comments ARC基础 在手工内存管理中，需要retain一个对象让其可用。 在ARC中只需让一个指针指向那个对象。有变量指针指向那个对象，那么它就会一直存在内存中。 当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。 &hellip;">
+	<meta name="description" content="Nov 11th, 2013 oc基础 Comments ARC基础 在手工内存管理中，需要retain一个对象让其可用。 在ARC中只需让一个指针指向那个对象。有变量指针指向那个对象，那么它就会一直存在内存中。 当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。 1 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -125,8 +125,10 @@
 
 <p>当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。</p>
 
-<pre><code>NSString *firstName = self.textField.text;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">firstName</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">textField</span><span class="p">.</span><span class="n">text</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>firstName变量为文本框中内容字符串对象的所有者</p>
 
@@ -172,20 +174,34 @@
 	<div class="entry-content" itemprop="articleBody">
 		<h3>writeToFile:atomically:</h3>
 
-<pre><code>NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText", nil];
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">glossary</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys:</span><span class="s">@&quot;TestClass&quot;</span><span class="p">,</span><span class="s">@&quot;className&quot;</span><span class="p">,</span><span class="s">@&quot;TestText&quot;</span><span class="p">,</span><span class="s">@&quot;classText&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">([</span><span class="n">glossary</span> <span class="nl">writeToFile:</span><span class="s">@&quot;glossary&quot;</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">]</span><span class="o">==</span><span class="n">NO</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;save to file failed&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;succeed&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">gly</span> <span class="o">=</span>  <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithContentsOfFile:</span><span class="s">@&quot;glossary&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="k">in</span> <span class="n">gly</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@:%@&quot;</span><span class="p">,</span><span class="n">key</span><span class="p">,[</span><span class="n">glossary</span> <span class="nl">objectForKey:</span><span class="n">key</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-if ([glossary writeToFile:@"glossary" atomically:YES]==NO) {
-    NSLog(@"save to file failed");
-}else{
-    NSLog(@"succeed");
-}
-
-NSDictionary *gly =  [NSDictionary dictionaryWithContentsOfFile:@"glossary"];
-
-for (NSString *key in gly) {
-    NSLog(@"%@:%@",key,[glossary objectForKey:key]);
-}
-</code></pre>
 
 
 		

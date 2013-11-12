@@ -4,7 +4,7 @@
   <title><![CDATA[Category: oc基础 | Sgxiang]]></title>
   <link href="http://sgxiang.github.io/blog/categories/ocji-chu/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-12T17:26:02+08:00</updated>
+  <updated>2013-11-12T19:26:03+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -24,8 +24,9 @@
 
 <p>当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。</p>
 
-<pre><code>NSString *firstName = self.textField.text;
-</code></pre>
+<p><code>objc
+NSString *firstName = self.textField.text;
+</code></p>
 
 <p>firstName变量为文本框中内容字符串对象的所有者</p>
 
@@ -50,8 +51,9 @@
 
 <p>firstName和textFiled.text为strong的类型指针。默认所有变量都是strong指针。</p>
 
-<pre><code>__weak NSString *weakName = self.textFiled.text;
-</code></pre>
+<p><code>objc
+__weak NSString *weakName = self.textFiled.text;
+</code></p>
 
 <p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2011/10/Pointers5-500x241.png" alt="" /></p>
 
@@ -80,8 +82,9 @@
 
 <hr />
 
-<pre><code>@property(nonatomic,strong,readonly)NSString *result;
-</code></pre>
+<p><code>objc
+@property(nonatomic,strong,readonly)NSString *result;
+</code></p>
 
 <p><strong> 如果定义了一个属性，那么应该用 self.propName 的形式来访问它， 而不是通过后端的实例变量(除非是在 init 方法，或者自定义的 getter 和 setter 方法中)。 </strong></p>
 
@@ -107,75 +110,96 @@
     <id>http://sgxiang.github.io/blog/2013/11/10/ocgui-dang</id>
     <content type="html"><![CDATA[<h3>writeToFile:atomically:</h3>
 
-<pre><code>NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText", nil];
+<p>``` objc
+NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@&ldquo;TestClass&rdquo;,@&ldquo;className&rdquo;,@&ldquo;TestText&rdquo;,@&ldquo;classText&rdquo;, nil];</p>
 
-if ([glossary writeToFile:@"glossary" atomically:YES]==NO) {
-    NSLog(@"save to file failed");
-}else{
-    NSLog(@"succeed");
-}
+<p>if ([glossary writeToFile:@&ldquo;glossary&rdquo; atomically:YES]==NO) {</p>
 
-NSDictionary *gly =  [NSDictionary dictionaryWithContentsOfFile:@"glossary"];
-
-for (NSString *key in gly) {
-    NSLog(@"%@:%@",key,[glossary objectForKey:key]);
-}
+<pre><code>NSLog(@"save to file failed");
 </code></pre>
+
+<p>}else{</p>
+
+<pre><code>NSLog(@"succeed");
+</code></pre>
+
+<p>}</p>
+
+<p>NSDictionary *gly =  [NSDictionary dictionaryWithContentsOfFile:@&ldquo;glossary&rdquo;];</p>
+
+<p>for (NSString *key in gly) {</p>
+
+<pre><code>NSLog(@"%@:%@",key,[glossary objectForKey:key]);
+</code></pre>
+
+<p>}
+```</p>
 
 <!--more-->
 
 
 <h3>NSKeyedArchiver</h3>
 
-<pre><code>NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@"TestClass",@"className",@"TestText",@"classText", nil];
+<p>```objc
+NSDictionary *glossary = [NSDictionary dictionaryWithObjectsAndKeys:@&ldquo;TestClass&rdquo;,@&ldquo;className&rdquo;,@&ldquo;TestText&rdquo;,@&ldquo;classText&rdquo;, nil];</p>
 
+<p>[NSKeyedArchiver archiveRootObject:glossary toFile:@&ldquo;glossary.archive&rdquo;];</p>
 
-[NSKeyedArchiver archiveRootObject:glossary toFile:@"glossary.archive"];
+<p>NSDictionary *read = [NSKeyedUnarchiver unarchiveObjectWithFile:@&ldquo;glossary.archive&rdquo;];</p>
 
-NSDictionary *read = [NSKeyedUnarchiver unarchiveObjectWithFile:@"glossary.archive"];
+<p>for (NSString *key in read) {</p>
 
-for (NSString *key in read) {
-    NSLog(@"%@:%@",key,[glossary objectForKey:key]);
-}
+<pre><code>NSLog(@"%@:%@",key,[glossary objectForKey:key]);
 </code></pre>
+
+<p>}
+```</p>
 
 <h3>归档自定义对象</h3>
 
 <h5>对象要实现NSCoding协议和encodeWithCoder:及initWithCoder:方法</h5>
 
-<pre><code>-(void)encodeWithCoder:(NSCoder *)aCoder{
-    [aCoder encodeObject:_name forKey:@"name"];
-    [aCoder encodeInt:_age forKey:@"age"];
-}
+<p>```objc
+&ndash;(void)encodeWithCoder:(NSCoder *)aCoder{</p>
 
--(id)initWithCoder:(NSCoder *)aDecoder{
-    _name = [aDecoder decodeObjectForKey:@"name"];
-    _age = [aDecoder decodeIntForKey:@"age"];
-
-    return self;
-}
+<pre><code>[aCoder encodeObject:_name forKey:@"name"];
+[aCoder encodeInt:_age forKey:@"age"];
 </code></pre>
+
+<p>}</p>
+
+<p>&ndash;(id)initWithCoder:(NSCoder *)aDecoder{</p>
+
+<pre><code>_name = [aDecoder decodeObjectForKey:@"name"];
+_age = [aDecoder decodeIntForKey:@"age"];
+return self;
+</code></pre>
+
+<p>}
+```</p>
 
 <h3>使用NSData</h3>
 
-<pre><code>NSMutableData *dataArea = [NSMutableData data];
-NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc]initForWritingWithMutableData:dataArea];
+<p>```objc
+NSMutableData <em>dataArea = [NSMutableData data];
+NSKeyedArchiver </em>archiver = [[NSKeyedArchiver alloc]initForWritingWithMutableData:dataArea];</p>
 
-[archiver encodeObject: forKey:];
-[archiver finishEncoding];
+<p>[archiver encodeObject:_name forKey:@&ldquo;name&rdquo;];
+[archiver finishEncoding];</p>
 
-[dataArea writeToFile: atomically:];
-</code></pre>
+<p>[dataArea writeToFile:@&ldquo;fileName&rdquo; atomically:YES];
+```</p>
 
 <p>读取的时候</p>
 
-<pre><code>NSMutableData *dataArea = [NSMutableData data];
-NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc]initForReadingWithData:dataArea];
+<p>```objc
+NSMutableData <em>dataArea = [NSMutableData data];
+NSKeyedUnarchiver </em>unarchiver = [[NSKeyedUnarchiver alloc]initForReadingWithData:dataArea];</p>
 
-test = [unarchiver decodeObjectForKey:];
+<p>test = [unarchiver decodeObjectForKey:@&ldquo;name&rdquo;];</p>
 
-[unarchiver finishDecoding];
-</code></pre>
+<p>[unarchiver finishDecoding];
+```</p>
 ]]></content>
   </entry>
   
