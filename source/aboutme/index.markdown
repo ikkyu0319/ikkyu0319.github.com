@@ -3,6 +3,7 @@ layout: page
 title: "about-me"
 date: 2013-10-17 19:57
 comments: true
+keywords: about,sgxiang,contact,weibo,wechat
 sharing: true
 footer: true
 ---
