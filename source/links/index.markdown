@@ -15,6 +15,7 @@ footer: true
 * [余书懿](http://blog.csdn.net/ysy441088327)
 * [njuxjys](http://xiaojiayi.com/blog/categories/ios/)
 * [TracyYih](http://esoftmobile.com/archives/)
+* [吴发伟Ted](http://wufawei.com/)
 
 ###friend
 * [蜗牛都知道](http://binary.duapp.com)
