@@ -16,6 +16,7 @@ footer: true
 * [njuxjys](http://xiaojiayi.com/blog/categories/ios/)
 * [TracyYih](http://esoftmobile.com/archives/)
 * [吴发伟Ted](http://wufawei.com/)
+* [ios开发之道](http://ioszhidao.tumblr.com/archive)
 
 ###friend
 * [蜗牛都知道](http://binary.duapp.com)
