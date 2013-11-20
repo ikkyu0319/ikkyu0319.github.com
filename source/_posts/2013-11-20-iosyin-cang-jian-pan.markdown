@@ -14,3 +14,14 @@ description:
 	[self.view endEditing:YES];
 }
 ```
+
+另外的方法：
+
+```objc
+//用于拿view比较困难的时候
+[[UIApplication sharedApplication]sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
+```
+
+```objc
+[[[UIApplication sharedApplication]keyWindow]endEditing:YES];
+```
