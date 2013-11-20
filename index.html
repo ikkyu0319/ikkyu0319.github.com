@@ -109,6 +109,78 @@
   
 
 
+<time datetime="2013-11-20T23:51:00+08:00" data-updated="true" itemprop="datePublished">Nov 20<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ocji-chu/'>oc基础</a>
+
+
+</div>
+		
+
+
+		
+				<span class="comments"><a href="/blog/2013/11/20/cong-csheng-ming-tan-dao-objective-ckuai-sheng-ming/#comments">评论</a></span>
+         
+
+
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/11/20/cong-csheng-ming-tan-dao-objective-ckuai-sheng-ming/" itemprop="url">从C声明谈到Objective-C块声明</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>在这篇文章中，我将从最基本的C声明符开始逐步过渡到复杂的Ojbective-C的blocks语法。我花了一些时间去理解block语法，但是你一旦了解了它是如果组织和构成的，在你需要声明一个block的时候就不用无时无刻去google了。</p>
+
+<h2>Declarators声明符</h2>
+
+<p>变量的声明在C(Objective-c)中用声明符。</p>
+
+<p>一个声明符有2个规则：</p>
+
+<ul>
+<li>指定变量的类型</li>
+<li>给变量一个名称让它在合适的范围里使用</li>
+</ul>
+
+
+<p>从最基本的声明符开始：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>int</code>是基本类型，<code>a</code>是一个变量名称或者称为标识符。</p>
+
+<p>你会从标识符开始然后从右阅读直到末尾，然后从变量左边开始。</p>
+
+<p>在这里右边没有任何东西所以它直截了当：<code>a</code>是一个<code>int</code>。</p>
+
+<p>一个声明只能有1个基本类型，它是最左边的字的说明符。</p>
+
+<p>说明符可以使用修饰符创建派生类型来修改基本类型。有4个修饰符：<code>*</code>,<code>[]</code>,<code>()</code>,<code>^</code>。</p>
+
+
+		
+		<a href="/blog/2013/11/20/cong-csheng-ming-tan-dao-objective-ckuai-sheng-ming/" class="more-link">阅读全文</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2013-11-20T20:51:00+08:00" data-updated="true" itemprop="datePublished">Nov 20<span>th</span>, 2013</time></div>
 		<div class="tags">
 
@@ -136,6 +208,22 @@
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan:</span><span class="p">(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">{</span>
 </span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">endEditing:</span><span class="n">YES</span><span class="p">];</span>
 </span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外的方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//用于拿view比较困难的时候</span>
+</span><span class='line'><span class="p">[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span><span class="nl">sendAction:</span><span class="k">@selector</span><span class="p">(</span><span class="n">resignFirstResponder</span><span class="p">)</span> <span class="nl">to:</span><span class="nb">nil</span> <span class="nl">from:</span><span class="nb">nil</span> <span class="nl">forEvent:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span><span class="n">keyWindow</span><span class="p">]</span><span class="nl">endEditing:</span><span class="n">YES</span><span class="p">];</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

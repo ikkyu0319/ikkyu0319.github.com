@@ -103,6 +103,22 @@
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>另外的方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//用于拿view比较困难的时候</span>
+</span><span class='line'><span class="p">[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span><span class="nl">sendAction:</span><span class="k">@selector</span><span class="p">(</span><span class="n">resignFirstResponder</span><span class="p">)</span> <span class="nl">to:</span><span class="nb">nil</span> <span class="nl">from:</span><span class="nb">nil</span> <span class="nl">forEvent:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span><span class="n">keyWindow</span><span class="p">]</span><span class="nl">endEditing:</span><span class="n">YES</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 </article>
