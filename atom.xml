@@ -4,7 +4,7 @@
   <title><![CDATA[Sgxiang]]></title>
   <link href="http://sgxiang.github.io/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-22T20:52:05+08:00</updated>
+  <updated>2013-11-22T21:33:32+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -12,6 +12,129 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用关联引用在类目中实现属性]]></title>
+    <link href="http://sgxiang.github.io/blog/2013/11/22/shi-yong-guan-lian-yin-yong-zai-lei-mu-zhong-shi-xian-shu-xing/"/>
+    <updated>2013-11-22T21:04:00+08:00</updated>
+    <id>http://sgxiang.github.io/blog/2013/11/22/shi-yong-guan-lian-yin-yong-zai-lei-mu-zhong-shi-xian-shu-xing</id>
+    <content type="html"><![CDATA[<p>类目中不能添加实例变量，所以通过关联引用向对象添加键值数据。</p>
+
+<p>用到的两个方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">id</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="kt">id</span> <span class="n">object</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="kt">id</span> <span class="n">object</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="kt">id</span> <span class="n">value</span><span class="p">,</span> <span class="n">objc_AssociationPolicy</span> <span class="n">policy</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>让一个对象与另外一个对象关联，<code>object</code>可以保存对<code>value</code>的引用并获得这个对象。</p>
+
+<p>policy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">enum</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">OBJC_ASSOCIATION_ASSIGN</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">OBJC_ASSOCIATION_COPY_NONATOMIC</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">OBJC_ASSOCIATION_RETAIN</span> <span class="o">=</span> <span class="mo">01401</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">OBJC_ASSOCIATION_COPY</span> <span class="o">=</span> <span class="mo">01403</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>eg</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &lt;objc/runtime.h&gt;</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">Person</span><span class="nl">(EmailAddress)</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readwrite</span><span class="p">,</span><span class="n">copy</span><span class="p">)</span><span class="n">NSString</span> <span class="o">*</span><span class="n">emailAddress</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">Person</span><span class="nl">(EmailAddress)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="n">emailAddressKey</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">emailAddress</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="o">&amp;</span><span class="n">emailAddressKey</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setEmailAddress:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">emailAddress</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="o">&amp;</span><span class="n">emailAddressKey</span><span class="p">,</span><span class="n">emailAddress</span><span class="p">,</span><span class="n">OBJC_ASSOCIATION_COPY</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那两个方法很方便的就实现了属性的getter和setter。</p>
+
+<p>另外的一个例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//为alert关联一个对象</span>
+</span><span class='line'><span class="kt">id</span> <span class="n">someObj</span> <span class="o">=</span> <span class="p">...;</span>
+</span><span class='line'><span class="n">UIAlertView</span> <span class="o">*</span><span class="n">alert</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>                      <span class="nl">initWithTitle:</span><span class="s">@&quot;title&quot;</span>
+</span><span class='line'>                      <span class="nl">message:</span><span class="nb">nil</span>
+</span><span class='line'>                      <span class="nl">delegate:</span><span class="n">self</span>
+</span><span class='line'>                      <span class="nl">cancelButtonTitle:</span><span class="s">@&quot;ok&quot;</span>
+</span><span class='line'>                      <span class="nl">otherButtonTitles:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="c1">//创建关联</span>
+</span><span class='line'><span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">alert</span><span class="p">,</span><span class="o">&amp;</span><span class="n">someKey</span><span class="p">,</span><span class="n">someOjb</span><span class="p">,</span><span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">alert</span> <span class="n">show</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//alert完成后的触发</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">alertView:</span><span class="p">(</span><span class="n">UIAlertView</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertView</span> <span class="nf">clickedButtonAtIndex:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">buttonIndex</span><span class="p">{</span>
+</span><span class='line'>  <span class="c1">//取得关联</span>
+</span><span class='line'>  <span class="n">UIButton</span> <span class="o">*</span><span class="n">sender</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">alertView</span><span class="p">,</span><span class="o">&amp;</span><span class="n">someKey</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,[[</span><span class="n">sender</span> <span class="n">titleLabel</span><span class="p">]</span><span class="n">text</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[从C声明谈到Objective-C块声明]]></title>

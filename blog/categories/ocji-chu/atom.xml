@@ -4,7 +4,7 @@
   <title><![CDATA[Category: oc基础 | Sgxiang]]></title>
   <link href="http://sgxiang.github.io/blog/categories/ocji-chu/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-22T20:52:05+08:00</updated>
+  <updated>2013-11-22T21:33:32+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用关联引用在类目中实现属性]]></title>
+    <link href="http://sgxiang.github.io/blog/2013/11/22/shi-yong-guan-lian-yin-yong-zai-lei-mu-zhong-shi-xian-shu-xing/"/>
+    <updated>2013-11-22T21:04:00+08:00</updated>
+    <id>http://sgxiang.github.io/blog/2013/11/22/shi-yong-guan-lian-yin-yong-zai-lei-mu-zhong-shi-xian-shu-xing</id>
+    <content type="html"><![CDATA[<p>类目中不能添加实例变量，所以通过关联引用向对象添加键值数据。</p>
+
+<p>用到的两个方法：</p>
+
+<p><code>objc
+id objc_getAssociatedObject(id object, const void *key)
+void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)
+</code></p>
+
+<p>让一个对象与另外一个对象关联，<code>object</code>可以保存对<code>value</code>的引用并获得这个对象。</p>
+
+<p>policy:</p>
+
+<p>```objc
+enum{</p>
+
+<pre><code>OBJC_ASSOCIATION_ASSIGN = 0,
+OBJC_ASSOCIATION_RETAIN_NONATOMIC = 1,
+OBJC_ASSOCIATION_COPY_NONATOMIC = 3,
+OBJC_ASSOCIATION_RETAIN = 01401,
+OBJC_ASSOCIATION_COPY = 01403
+</code></pre>
+
+<p>}
+```</p>
+
+<p><strong>eg</strong>:</p>
+
+<p>```objc</p>
+
+<h1>import &lt;objc/runtime.h></h1>
+
+<p>@interface Person(EmailAddress)
+@property(nonatomic,readwrite,copy)NSString *emailAddress;
+@end</p>
+
+<p>@implementation Person(EmailAddress)</p>
+
+<p>static char emailAddressKey;</p>
+
+<p>&ndash;(NSString *)emailAddress{</p>
+
+<pre><code>return objc_getAssociatedObject(self,&amp;emailAddressKey);
+</code></pre>
+
+<p>}</p>
+
+<p>&ndash;(void)setEmailAddress:(NSString *)emailAddress{</p>
+
+<pre><code>objc_setAssociatedObject(self,&amp;emailAddressKey,emailAddress,OBJC_ASSOCIATION_COPY);
+</code></pre>
+
+<p>}
+@end
+```</p>
+
+<p>那两个方法很方便的就实现了属性的getter和setter。</p>
+
+<p>另外的一个例子：</p>
+
+<p>```objc
+//为alert关联一个对象
+id someObj = &hellip;;
+UIAlertView *alert = [[UIAlertView alloc]</p>
+
+<pre><code>                    initWithTitle:@"title"
+                    message:nil
+                    delegate:self
+                    cancelButtonTitle:@"ok"
+                    otherButtonTitles:nil];
+</code></pre>
+
+<p>//创建关联
+objc_setAssociatedObject(alert,&amp;someKey,someOjb,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+[alert show];</p>
+
+<p>//alert完成后的触发
+&ndash;(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{</p>
+
+<pre><code>//取得关联
+UIButton *sender = objc_getAssociatedObject(alertView,&amp;someKey);
+NSLog(@"%@",[[sender titleLabel]text]);
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[从C声明谈到Objective-C块声明]]></title>
