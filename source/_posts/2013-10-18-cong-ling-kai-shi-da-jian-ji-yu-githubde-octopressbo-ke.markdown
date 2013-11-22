@@ -5,7 +5,7 @@ date: 2013-10-18 10:49
 comments: true
 keywords: octopress,github,blog
 description: 通过网络几篇文章整理的mac平台上基于github的安装octopress大致全面的教程。
-categories: Octopress
+categories: octopress
 ---
 [Octopress][]
 [Octopress]: http://octopress.org
