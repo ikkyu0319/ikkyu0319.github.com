@@ -4,7 +4,7 @@
   <title><![CDATA[Sgxiang]]></title>
   <link href="http://sgxiang.github.io/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2013-11-20T23:58:23+08:00</updated>
+  <updated>2013-11-22T20:52:05+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -149,7 +149,7 @@
 
 <p>块指针修饰符只能应用到一个函数中（你不能这样写<code>int ^a</code>，这不是一个合法的定义）。</p>
 
-<p>这就是为什么<code>int ^b()</code>是非法的，这会导致一个编译错误：当你用优先级的规则阅读这个声明的时候，<code>b</code>将是一个函数，返回一个块指针指向<code>int</code>。这就是为什么你声明块的时候你需要将<code>^</code>和标识符放在括号<code>[]</code>中。</p>
+<p>这就是为什么<code>int ^b()</code>是非法的，这会导致一个编译错误：当你用优先级的规则阅读这个声明的时候，<code>b</code>将是一个函数，返回一个块指针指向<code>int</code>。这就是为什么你声明块的时候你需要将<code>^</code>和标识符放在括号<code>()</code>中。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="p">(</span><span class="o">^</span><span class="n">b</span><span class="p">)()</span>
