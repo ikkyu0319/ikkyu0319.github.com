@@ -229,4 +229,4 @@ typedef returnType (^TypeName)(parameterTypes);
 TypeName blockName = ^(parameters) {...}
 ```
 
-__来自:http://fuckingblocksyntax.com__
+__ 来自:http://fuckingblocksyntax.com __
