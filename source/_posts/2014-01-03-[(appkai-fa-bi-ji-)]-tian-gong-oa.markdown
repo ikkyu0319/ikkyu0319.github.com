@@ -12,9 +12,17 @@ description:
 
 在公司前一个星期做了个内部的OA应用，现在慢慢整理一下项目相关的代码片段以备用。
 
-![](http://sgxiang.github.io/images/Screenshot_1.png) ![](http://sgxiang.github.io/images/Screenshot_2.png) ![](http://sgxiang.github.io/images/Screenshot_3.png) ![](http://sgxiang.github.io/images/Screenshot_4.png)
+![](http://sgxiang.github.io/images/Screenshot_1.png) 
 
 <!--more-->
+
+![](http://sgxiang.github.io/images/Screenshot_2.png) 
+
+![](http://sgxiang.github.io/images/Screenshot_3.png) 
+
+![](http://sgxiang.github.io/images/Screenshot_4.png)
+
+
 
 
 ####UITabBar
