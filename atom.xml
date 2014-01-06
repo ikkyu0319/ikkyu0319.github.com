@@ -4,7 +4,7 @@
   <title><![CDATA[Sgxiang]]></title>
   <link href="http://sgxiang.github.io/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2014-01-06T23:59:24+08:00</updated>
+  <updated>2014-01-07T00:03:54+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -27,6 +27,9 @@
 <li>将Web服务逻辑移到Model层</li>
 <li>将View代码移到View Layer</li>
 </ol>
+
+
+<!--more-->
 
 
 <h2>2.整洁的表视图</h2>
@@ -164,10 +167,16 @@
 
 <p>在公司前一个星期做了个内部的OA应用，现在慢慢整理一下项目相关的代码片段以备用。</p>
 
-<p><img src="http://sgxiang.github.io/images/Screenshot_1.png" alt="" /> <img src="http://sgxiang.github.io/images/Screenshot_2.png" alt="" /> <img src="http://sgxiang.github.io/images/Screenshot_3.png" alt="" /> <img src="http://sgxiang.github.io/images/Screenshot_4.png" alt="" /></p>
+<p><img src="http://sgxiang.github.io/images/Screenshot_1.png" alt="" /></p>
 
 <!--more-->
 
+
+<p><img src="http://sgxiang.github.io/images/Screenshot_2.png" alt="" /></p>
+
+<p><img src="http://sgxiang.github.io/images/Screenshot_3.png" alt="" /></p>
+
+<p><img src="http://sgxiang.github.io/images/Screenshot_4.png" alt="" /></p>
 
 <h4>UITabBar</h4>
 
