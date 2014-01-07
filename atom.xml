@@ -4,7 +4,7 @@
   <title><![CDATA[Sgxiang]]></title>
   <link href="http://sgxiang.github.io/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2014-01-07T00:03:54+08:00</updated>
+  <updated>2014-01-07T20:31:10+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -12,6 +12,401 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[【APP开发笔记】业务通]]></title>
+    <link href="http://sgxiang.github.io/blog/2014/01/07/%5B%28appkai-fa-bi-ji-%29%5D-ye-wu-tong/"/>
+    <updated>2014-01-07T20:27:00+08:00</updated>
+    <id>http://sgxiang.github.io/blog/2014/01/07/[(appkai-fa-bi-ji-)]-ye-wu-tong</id>
+    <content type="html"><![CDATA[<p>目前还在做的一个项目。整理些资料以备用。</p>
+
+<p><img src="http://sgxiang.github.io/images/yewutong.png" alt="" /></p>
+
+<!--more-->
+
+
+<h4>从自定的xib文件中加载view</h4>
+
+<p>CustomView *view =  [[NSBundle mainBundle] loadNibNamed:@&ldquo;CustomView&rdquo; owner:nil options:nil][0];</p>
+
+<h4>UISearchBar适配</h4>
+
+<p>在ios7之前，UISearchBar的视图树是这样的：</p>
+
+<p>UISearchBar => UISearchBarBackgroud、UISearchBarTextField</p>
+
+<p>而在ios7中，视图树变成这样的：</p>
+
+<p>UISearchBar => UIView => UISearchBarBackgroud、UISearchBarTextField</p>
+
+<p>所以适配方面需要修改：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &quot;ywtSearchBar.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">ywtSearchBar</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// Initialization code</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">load</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">load</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">keyboardType</span> <span class="o">=</span> <span class="n">UIKeyboardTypeDefault</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">//在ios7使提示语居中</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">IOS7</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithCString:</span><span class="s">&quot;搜索（请输入项目关键字）                        &quot;</span>  <span class="nl">encoding:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithCString:</span><span class="s">&quot;搜索（请输入项目关键字）&quot;</span>  <span class="nl">encoding:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//禁止默认的取消按钮，在之后可以自定义</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">addSubview:</span><span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">view</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">addSubview:</span><span class="n">view</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">view</span> <span class="nl">isKindOfClass:</span><span class="n">UIButton</span><span class="p">.</span><span class="n">class</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">UIButton</span> <span class="o">*</span><span class="n">cancelButton</span> <span class="o">=</span> <span class="p">(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">cancelButton</span> <span class="nl">setTitle:</span><span class="s">@&quot;        &quot;</span> <span class="nl">forState:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">cancelButton</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//更改搜索框背景图片，适配ios7</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">layoutSubviews</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">UITextField</span> <span class="o">*</span><span class="n">searchField</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">__weak</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">//由于视图树改变了所以要做相应的判断</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">IOS7</span><span class="p">){</span>
+</span><span class='line'>        <span class="n">view</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>        <span class="n">view</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">subviews</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSUInteger</span> <span class="n">numViews</span> <span class="o">=</span> <span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="n">subviews</span> <span class="n">count</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numViews</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">([[</span><span class="n">view</span><span class="p">.</span><span class="n">subviews</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">]</span> <span class="nl">isKindOfClass:</span><span class="p">[</span><span class="n">UITextField</span> <span class="n">class</span><span class="p">]])</span> <span class="p">{</span> <span class="c1">//conform?</span>
+</span><span class='line'>            <span class="n">searchField</span> <span class="o">=</span> <span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="n">subviews</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">searchField</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">searchField</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">searchField</span> <span class="nl">setBackground:</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;searchBg&quot;</span><span class="p">]</span> <span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">searchField</span> <span class="nl">setBorderStyle:</span><span class="n">UITextBorderStyleNone</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">layoutSubviews</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而自定义搜索按钮，需要在UISearchDisplayController中修改</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//在将要开始搜索的时候添加上自定义的按钮上去</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">searchDisplayControllerDidBeginSearch:</span><span class="p">(</span><span class="n">UISearchDisplayController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">UIView</span> <span class="o">*</span><span class="n">topView</span> <span class="o">=</span> <span class="n">controller</span><span class="p">.</span><span class="n">searchBar</span><span class="p">.</span><span class="n">subviews</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">_searchBtn</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">_searchBtn</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIButton</span> <span class="nl">buttonWithType:</span><span class="n">UIButtonTypeCustom</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">_searchBtn</span> <span class="nl">setTitle:</span><span class="s">@&quot;     &quot;</span> <span class="nl">forState:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">_searchBtn</span> <span class="nl">setBackgroundImage:</span><span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;roundBtn&quot;</span><span class="p">]</span> <span class="nl">forState:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">_searchBtn</span> <span class="nl">setFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">270</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">27</span><span class="p">)];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">_searchBtn</span> <span class="nl">addTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">searchBarSearchButtonClicked:</span><span class="p">)</span> <span class="nl">forControlEvents:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">_searchBtn</span><span class="p">.</span><span class="n">superview</span> <span class="o">==</span><span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>         <span class="p">[</span><span class="n">topView</span> <span class="nl">addSubview:</span><span class="n">_searchBtn</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//在结束搜索的时候移除自定义的按钮</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">searchDisplayControllerWillEndSearch:</span><span class="p">(</span><span class="n">UISearchDisplayController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">_searchBtn</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>UIPageControl适配</h4>
+
+<p>由于在ios7中UIPageControl的子视图不在是UIImageView所欲无法直接的更改小圆点的图片。做了如下适配：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &quot;YWTPageControl.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">YWTPageControl</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">activeImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;FullPoint&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">inactiveImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;NullPoint&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setCurrentPageIndicatorTintColor:</span><span class="p">)]</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">self</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setPageIndicatorTintColor:</span><span class="p">)])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">setCurrentPageIndicatorTintColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">]];</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">setPageIndicatorTintColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">]];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="nl">setBackgroundColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">]];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setCurrentPage:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">currentPage</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">setCurrentPage:</span><span class="n">currentPage</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">IOS7</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">//ios7中重绘视图</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">setNeedsDisplay</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>      <span class="c1">//ios7之前之间更换图片</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">updateDots</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawRect:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">iRect</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">IOS7</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">CGRect</span> <span class="n">rect</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">iRect</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">opaque</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="n">set</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">UIRectFill</span><span class="p">(</span><span class="n">iRect</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">_kSpacing</span> <span class="o">=</span> <span class="mf">5.0f</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">hidesForSinglePage</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">numberOfPages</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">activeImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">numberOfPages</span> <span class="o">*</span> <span class="n">activeImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">numberOfPages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">_kSpacing</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">floorf</span><span class="p">((</span><span class="n">iRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">floorf</span><span class="p">((</span><span class="n">iRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">activeImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">numberOfPages</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">image</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">currentPage</span><span class="p">)</span> <span class="o">?</span> <span class="n">activeImage</span> <span class="o">:</span> <span class="n">inactiveImage</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect:</span><span class="n">rect</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">rect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">activeImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">_kSpacing</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">updateDots</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">subviews</span> <span class="n">count</span><span class="p">];</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">UIImageView</span><span class="o">*</span> <span class="n">dot</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">subviews</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">currentPage</span><span class="p">)</span> <span class="n">dot</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">activeImage</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">else</span> <span class="n">dot</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">inactiveImage</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[整洁的表视图]]></title>

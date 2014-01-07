@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios开发 | Sgxiang]]></title>
   <link href="http://sgxiang.github.io/blog/categories/ioskai-fa/atom.xml" rel="self"/>
   <link href="http://sgxiang.github.io/"/>
-  <updated>2014-01-07T00:03:54+08:00</updated>
+  <updated>2014-01-07T20:31:10+08:00</updated>
   <id>http://sgxiang.github.io/</id>
   <author>
     <name><![CDATA[Sgxiang]]></name>
@@ -12,6 +12,252 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[【APP开发笔记】业务通]]></title>
+    <link href="http://sgxiang.github.io/blog/2014/01/07/%5B%28appkai-fa-bi-ji-%29%5D-ye-wu-tong/"/>
+    <updated>2014-01-07T20:27:00+08:00</updated>
+    <id>http://sgxiang.github.io/blog/2014/01/07/[(appkai-fa-bi-ji-)]-ye-wu-tong</id>
+    <content type="html"><![CDATA[<p>目前还在做的一个项目。整理些资料以备用。</p>
+
+<p><img src="http://sgxiang.github.io/images/yewutong.png" alt="" /></p>
+
+<!--more-->
+
+
+<h4>从自定的xib文件中加载view</h4>
+
+<p>CustomView *view =  [[NSBundle mainBundle] loadNibNamed:@&ldquo;CustomView&rdquo; owner:nil options:nil][0];</p>
+
+<h4>UISearchBar适配</h4>
+
+<p>在ios7之前，UISearchBar的视图树是这样的：</p>
+
+<p>UISearchBar => UISearchBarBackgroud、UISearchBarTextField</p>
+
+<p>而在ios7中，视图树变成这样的：</p>
+
+<p>UISearchBar => UIView => UISearchBarBackgroud、UISearchBarTextField</p>
+
+<p>所以适配方面需要修改：</p>
+
+<p>```objc</p>
+
+<h1>import &ldquo;ywtSearchBar.h&rdquo;</h1>
+
+<p>@implementation ywtSearchBar</p>
+
+<ul>
+<li><p>(id)initWithFrame:(CGRect)frame
+{
+  self = [super initWithFrame:frame];
+  if (self) {
+      // Initialization code</p>
+
+<pre><code>  [self load];
+</code></pre>
+
+<p>  }
+  return self;
+}</p></li>
+</ul>
+
+
+<p>&ndash;(void)load{</p>
+
+<pre><code>self.keyboardType = UIKeyboardTypeDefault;
+//在ios7使提示语居中
+if (IOS7) {
+    self.placeholder = [NSString stringWithCString:"搜索（请输入项目关键字）                        "  encoding: NSUTF8StringEncoding];
+}else{
+    self.placeholder = [NSString stringWithCString:"搜索（请输入项目关键字）"  encoding: NSUTF8StringEncoding];
+}
+</code></pre>
+
+<p>}</p>
+
+<p>//禁止默认的取消按钮，在之后可以自定义
+&ndash; (void) addSubview:(UIView *)view {</p>
+
+<pre><code>[super addSubview:view];
+if ([view isKindOfClass:UIButton.class]) {
+
+    UIButton *cancelButton = (UIButton *)view;
+    [cancelButton setTitle:@"        " forState:UIControlStateNormal];
+    cancelButton.enabled = NO;
+}
+</code></pre>
+
+<p>}
+//更改搜索框背景图片，适配ios7
+&ndash; (void)layoutSubviews {</p>
+
+<pre><code>UITextField *searchField;
+
+__weak UIView *view;
+//由于视图树改变了所以要做相应的判断
+if(!IOS7){
+    view = self;
+}else{
+    view = [self.subviews objectAtIndex:0];
+}
+
+NSUInteger numViews = [view.subviews count];
+for(int i = 0; i &lt; numViews; i++) {
+    if([[view.subviews objectAtIndex:i] isKindOfClass:[UITextField class]]) { //conform?
+        searchField = [view.subviews objectAtIndex:i];
+    }
+}
+if(!(searchField == nil)) {
+    searchField.textColor = [UIColor blackColor];
+    [searchField setBackground: [UIImage imageNamed:@"searchBg"] ];
+    [searchField setBorderStyle:UITextBorderStyleNone];
+}
+
+[super layoutSubviews];
+</code></pre>
+
+<p>}
+@end
+```</p>
+
+<p>而自定义搜索按钮，需要在UISearchDisplayController中修改</p>
+
+<p>```objc
+//在将要开始搜索的时候添加上自定义的按钮上去
+&ndash;(void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller{</p>
+
+<pre><code>UIView *topView = controller.searchBar.subviews[0];
+
+if (_searchBtn == nil) {
+    _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_searchBtn setTitle:@"     " forState:UIControlStateNormal];
+    [_searchBtn setBackgroundImage:[UIImage imageNamed:@"roundBtn"] forState:UIControlStateNormal];
+    [_searchBtn setFrame:CGRectMake(270, 7, 39, 27)];
+    [_searchBtn addTarget:self action:@selector(searchBarSearchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+if (_searchBtn.superview ==nil) {
+     [topView addSubview:_searchBtn];
+}
+</code></pre>
+
+<p>}
+//在结束搜索的时候移除自定义的按钮
+&ndash;(void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller{</p>
+
+<pre><code>[_searchBtn removeFromSuperview];
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>UIPageControl适配</h4>
+
+<p>由于在ios7中UIPageControl的子视图不在是UIImageView所欲无法直接的更改小圆点的图片。做了如下适配：</p>
+
+<p>```objc</p>
+
+<h1>import &ldquo;YWTPageControl.h&rdquo;</h1>
+
+<p>@implementation YWTPageControl</p>
+
+<ul>
+<li><p>(id)initWithFrame:(CGRect)frame
+{
+  self = [super initWithFrame:frame];
+  if (self) {</p>
+
+<pre><code>  activeImage = [UIImage imageNamed:@"FullPoint"];
+  inactiveImage = [UIImage imageNamed:@"NullPoint"];
+
+
+  self.userInteractionEnabled = NO;
+
+  if ([self respondsToSelector:@selector(setCurrentPageIndicatorTintColor:)] &amp;&amp; [self respondsToSelector:@selector(setPageIndicatorTintColor:)]) {
+      [self setCurrentPageIndicatorTintColor:[UIColor clearColor]];
+      [self setPageIndicatorTintColor:[UIColor clearColor]];
+  }
+
+  [self setBackgroundColor:[UIColor clearColor]];
+</code></pre>
+
+<p>  }
+  return self;
+}</p></li>
+<li><p>(void)setCurrentPage:(NSInteger)currentPage
+{
+  [super setCurrentPage:currentPage];
+  if (IOS7) {
+      //ios7中重绘视图
+      [self setNeedsDisplay];
+  }else{
+      //ios7之前之间更换图片
+      [self updateDots];
+  }
+}</p></li>
+<li><p>(void)drawRect:(CGRect)iRect
+{</p>
+
+<p>  if (!IOS7) {
+      return;
+  }</p>
+
+<p>  int i;
+  CGRect rect;
+  UIImage *image;</p>
+
+<p>  iRect = self.frame;</p>
+
+<p>  if (self.opaque) {</p>
+
+<pre><code>  [self.backgroundColor set];
+  UIRectFill(iRect);
+</code></pre>
+
+<p>  }</p>
+
+<p>  CGFloat _kSpacing = 5.0f;</p>
+
+<p>  if (self.hidesForSinglePage &amp;&amp; self.numberOfPages == 1) {
+      return;
+  }</p>
+
+<p>  rect.size.height = activeImage.size.height;
+  rect.size.width = self.numberOfPages * activeImage.size.width + (self.numberOfPages &ndash; 1) * _kSpacing;
+  rect.origin.x = floorf((iRect.size.width &ndash; rect.size.width) / 2.0);
+  rect.origin.y = floorf((iRect.size.height &ndash; rect.size.height) / 2.0);
+  rect.size.width = activeImage.size.width;</p>
+
+<p>  for (i = 0; i &lt; self.numberOfPages; ++i) {
+      image = (i == self.currentPage) ? activeImage : inactiveImage;
+      [image drawInRect:rect];</p>
+
+<pre><code>  rect.origin.x += activeImage.size.width + _kSpacing;
+</code></pre>
+
+<p>  }</p></li>
+</ul>
+
+
+<p>}</p>
+
+<p>&ndash;(void) updateDots
+{</p>
+
+<pre><code>for (int i = 0; i &lt; [self.subviews count]; i++)
+{
+
+    UIImageView* dot = [self.subviews objectAtIndex:i];
+    if (i == self.currentPage) dot.image = activeImage;
+    else dot.image = inactiveImage;
+}
+</code></pre>
+
+<p>}
+@end
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[【APP开发笔记】天工OA]]></title>
