@@ -109,6 +109,277 @@
   
 
 
+<time datetime="2014-01-11T22:15:00+08:00" data-updated="true" itemprop="datePublished">Jan 11<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+
+
+		
+				<span class="comments"><a href="/blog/2014/01/11/mantleshi-yong/#comments">评论</a></span>
+         
+
+
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/01/11/mantleshi-yong/" itemprop="url">Mantle使用</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Mantle可以很方便的去书写一个模型层的代码。</p>
+
+<p>使用它可以很方便的去反序列化JSON或者序列化为JSON(需要在<code>MTLModel</code>子类中实现<code>&lt;MTLJSONSerializing&gt;</code>协议)</p>
+
+<p>使用一个解释器<code>MTLJSONAdapter</code>去转换模型对象。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="n">MyObject</span> <span class="o">*</span><span class="n">myObject</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">modelOfClass:</span><span class="n">MyObject</span><span class="p">.</span><span class="n">class</span> <span class="nl">fromJSONDictionary:</span><span class="n">JSONDictionary</span> <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>  <span class="c1">//把JSONDictionary转换为模型对象</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">JSONDictionary</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">JSONDictionaryFromModel:</span><span class="n">myObject</span><span class="p">];</span>   <span class="c1">//将模型对象转为JSON字典</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><code>+JSONKeyPathsByPropertyKey</code></h3>
+
+<p>这个方法返回一个字典，指定着你的模型对象和JSON中关键字的映射关系。</p>
+
+<p>一个例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">XYUser</span> : <span class="nc">MTLModel</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSDate</span> <span class="o">*</span><span class="n">createdAt</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">getter</span> <span class="o">=</span> <span class="n">isMeUser</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">meUser</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">XYUser</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nf">JSONKeyPathsByPropertyKey</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="err">@</span><span class="p">{</span>
+</span><span class='line'>        <span class="s">@&quot;createdAt&quot;</span><span class="o">:</span> <span class="s">@&quot;created_at&quot;</span><span class="p">,</span>   <span class="c1">//这里代表createdAt属性映射JSON中的created_at关键字</span>
+</span><span class='line'>        <span class="s">@&quot;meUser&quot;</span><span class="o">:</span> <span class="n">NSNull</span><span class="p">.</span><span class="n">null</span>        <span class="c1">//meUser不会从JSON中反序列化</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当我们用字典反序列化的时候</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">JSONDictionary</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span>
+</span><span class='line'>    <span class="s">@&quot;name&quot;</span><span class="o">:</span> <span class="s">@&quot;john&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">@&quot;created_at&quot;</span><span class="o">:</span> <span class="s">@&quot;2013/07/02 16:40:00 +0000&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">@&quot;plan&quot;</span><span class="o">:</span> <span class="s">@&quot;lite&quot;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">XYUser</span> <span class="o">*</span><span class="n">user</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">modelOfClass:</span><span class="n">XYUser</span><span class="p">.</span><span class="n">class</span> <span class="nl">fromJSONDictionary:</span><span class="n">JSONDictionary</span> <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//user中的name为john  createdAt为2013/07/02 16:40:00 +0000 meUser为0 plan将会被忽略</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><code>+JSONTransformerForKey:</code></h3>
+
+<p>实现这个方法去用一个不一样的类型转换器去转化属性</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSValueTransformer</span> <span class="o">*</span><span class="p">)</span><span class="nf">JSONTransformerForKey:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">key</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;createdAt&quot;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">NSValueTransformer</span> <span class="nl">valueTransformerForName:</span><span class="n">XYDateValueTransformerName</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>对于一些值的转换：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSValueTransformer</span> <span class="o">*</span><span class="p">)</span><span class="nf">createdAtJSONTransformer</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">MTLValueTransformer</span> <span class="nl">reversibleTransformerWithForwardBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">dateFormatter</span> <span class="nl">dateFromString:</span><span class="n">str</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span> <span class="nl">reverseBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">NSDate</span> <span class="o">*</span><span class="n">date</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">dateFormatter</span> <span class="nl">stringFromDate:</span><span class="n">date</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><code>+classForParsingJSONDictionary:</code></h3>
+
+<p>如果定义了一个类簇，可以实现这个方法去转换。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">XYMessage</span> : <span class="nc">MTLModel</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XYTextMessage</span>: <span class="nc">XYMessage</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">body</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">XYPictureMessage</span> : <span class="nc">XYMessage</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">XYMessage</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">Class</span><span class="p">)</span><span class="nf">classForParsingJSONDictionary:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">JSONDictionary</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">JSONDictionary</span><span class="p">[</span><span class="s">@&quot;image_url&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">XYPictureMessage</span><span class="p">.</span><span class="n">class</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">JSONDictionary</span><span class="p">[</span><span class="s">@&quot;body&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">XYTextMessage</span><span class="p">.</span><span class="n">class</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSAssert</span><span class="p">(</span><span class="n">NO</span><span class="p">,</span> <span class="s">@&quot;No matching class for the JSON dictionary &#39;%@&#39;.&quot;</span><span class="p">,</span> <span class="n">JSONDictionary</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">textMessage</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span>
+</span><span class='line'>    <span class="s">@&quot;id&quot;</span><span class="o">:</span> <span class="err">@</span><span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">@&quot;body&quot;</span><span class="o">:</span> <span class="s">@&quot;Hello World!&quot;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">pictureMessage</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span>
+</span><span class='line'>    <span class="s">@&quot;id&quot;</span><span class="o">:</span> <span class="err">@</span><span class="mi">2</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">@&quot;image_url&quot;</span><span class="o">:</span> <span class="s">@&quot;http://example.com/lolcat.gif&quot;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">XYTextMessage</span> <span class="o">*</span><span class="n">messageA</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">modelOfClass:</span><span class="n">XYMessage</span><span class="p">.</span><span class="n">class</span> <span class="nl">fromJSONDictionary:</span><span class="n">textMessage</span> <span class="nl">error:</span><span class="nb">NULL</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">XYPictureMessage</span> <span class="o">*</span><span class="n">messageB</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">modelOfClass:</span><span class="n">XYMessage</span><span class="p">.</span><span class="n">class</span> <span class="nl">fromJSONDictionary:</span><span class="n">pictureMessage</span> <span class="nl">error:</span><span class="nb">NULL</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>数据的持久化</h3>
+
+<p><code>MTLModel</code>已经遵循了<code>&lt;NSCoding&gt;</code>协议，所以可以<code>NSKeyedArchiver</code>归档这个模型对象。</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-01-07T20:27:00+08:00" data-updated="true" itemprop="datePublished">Jan 7<span>th</span>, 2014</time></div>
 		<div class="tags">
 
@@ -727,78 +998,6 @@
 
 		
 		<a href="/blog/2013/11/10/ocgui-dang/" class="more-link">阅读全文</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-08T01:10:00+08:00" data-updated="true" itemprop="datePublished">Nov 8<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/git/'>git</a>
-
-
-</div>
-		
-
-
-		
-				<span class="comments"><a href="/blog/2013/11/08/githubxiang-guan/#comments">评论</a></span>
-         
-
-
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/11/08/githubxiang-guan/" itemprop="url">Git相关</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>整理来源：<strong><em> <a href="http://www.worldhello.net/gotgithub/index.html">http://www.worldhello.net/gotgithub/index.html</a> </em></strong></p>
-
-<p><strong>一张git操作的思维导图：</strong></p>
-
-<ul>
-<li><a href="http://sgxiang.github.io/images/git.png">下载</a></li>
-</ul>
-
-
-<hr />
-
-<pre><code>$ ssh -T git@github.com    //检测连接github shh服务命令
-</code></pre>
-
-<h4>【clone】</h4>
-
-<pre><code>$ git clone git@github.com:gotgithub/helloworld.git
-$ git add README.md
-$ git commit -m "README for this project"
-$ git push origin master
-</code></pre>
-
-<h4>【新建】</h4>
-
-<pre><code>$ git init
-$ git add README.md
-$ git commit -m "readme for thisproject"
-$ git remote add origin git@github.com:sgxiang/some.git
-$ git push -u origin master
-</code></pre>
-
-
-		
-		<a href="/blog/2013/11/08/githubxiang-guan/" class="more-link">阅读全文</a>
 	</div>
 
 </article>
