@@ -18,6 +18,8 @@ footer: true
 * [吴发伟Ted](http://wufawei.com/)
 * [ios开发之道](http://ioszhidao.tumblr.com/archive)
 * [XcodeDev](http://blog.xcodev.com/blog/archives/)
+* [无网不剩](http://blog.leezhong.com)
+* [萧宸宇](http://iiiyu.com/categories/iOS/)
 
 ###friend
 * [蜗牛都知道](http://binary.duapp.com)
@@ -26,6 +28,7 @@ footer: true
 ###oc-website
 * [objc][4]
 * [Github-IOS备忘] [5]
+* [raywenderlich](http://www.raywenderlich.com)
 
 ###apple-developer
 * [Apple Developer] [6]
