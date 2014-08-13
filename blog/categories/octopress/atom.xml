@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: octopress | Sgxiang]]></title>
-  <link href="http://sgxiang.github.io/blog/categories/octopress/atom.xml" rel="self"/>
-  <link href="http://sgxiang.github.io/"/>
-  <updated>2014-01-20T19:26:50+08:00</updated>
-  <id>http://sgxiang.github.io/</id>
+  <title><![CDATA[Category: Octopress | ShareSofa]]></title>
+  <link href="http://ikkyu0319.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://ikkyu0319.github.io/"/>
+  <updated>2014-08-13T21:56:44+08:00</updated>
+  <id>http://ikkyu0319.github.io/</id>
   <author>
-    <name><![CDATA[Sgxiang]]></name>
-    <email><![CDATA[sgxiang1992@icloud.com]]></email>
+    <name><![CDATA[一休]]></name>
+    
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
     <title type="html"><![CDATA[在Mac上从零开始搭建基于Github的Octopress博客]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/10/18/cong-ling-kai-shi-da-jian-ji-yu-githubde-octopressbo-ke/"/>
-    <updated>2013-10-18T10:49:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/10/18/cong-ling-kai-shi-da-jian-ji-yu-githubde-octopressbo-ke</id>
+    <link href="http://ikkyu0319.github.io/blog/2014/08/09/cong-ling-kai-shi-da-jian-ji-yu-githubde-octopressbo-ke/"/>
+    <updated>2014-08-09T10:49:00+08:00</updated>
+    <id>http://ikkyu0319.github.io/blog/2014/08/09/cong-ling-kai-shi-da-jian-ji-yu-githubde-octopressbo-ke</id>
     <content type="html"><![CDATA[<p><a href="http://octopress.org">Octopress</a>
-<a href="http://github.com">Github</a></p>
-
-<br>
-
+<a href="http://github.com">Github</a>
+<br></p>
 
 <p>通过网络几篇文章整理的大致全面的教程。</p>
 
@@ -127,7 +125,7 @@ ssh-keygen -t rsa -C 你注册github时的email
 <p>弹出<code>Enter passphrase (empty for no passphrase):</code>输入你github账号的密码。<code>Enter same passphrase again:</code>再次输入你的密码。</p>
 
 <p>打开~/.ssh下的id_rsa.pub文件复制里面的全部内容。
-登陆github，选择Account Settings&mdash;>SSH Public Keys 添加ssh，把剪切板的内容复制到key输入框内直接保存。</p>
+登陆github，选择Account Settings&ndash;>SSH Public Keys 添加ssh，把剪切板的内容复制到key输入框内直接保存。</p>
 
 <p>测试shh:</p>
 
@@ -154,7 +152,7 @@ Connection to github.com closed.
 <pre><code>rake setup_github_pages
 </code></pre>
 
-<p>弹出之后输入<code>git@github.com:your_username/your_username.github.com.git</code>不要用提示的io，我的是<code>git@github.com/sgxiang/sgxiang.github.com.git</code></p>
+<p>弹出之后输入<code>git@github.com:your_username/your_username.github.com.git</code>不要用提示的io，我的是<code>git@github.com:ikkyu0319/ikkyu0319.github.com.git</code></p>
 
 <p><strong>输入以下命令部署博客</strong></p>
 

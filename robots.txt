@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://sgxiang.github.io/sitemap.xml 
+Sitemap: http://ikkyu0319.github.io/sitemap.xml 

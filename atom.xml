@@ -1,1873 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Sgxiang]]></title>
-  <link href="http://sgxiang.github.io/atom.xml" rel="self"/>
-  <link href="http://sgxiang.github.io/"/>
-  <updated>2014-01-20T19:26:50+08:00</updated>
-  <id>http://sgxiang.github.io/</id>
+  <title><![CDATA[ShareSofa]]></title>
+  <link href="http://ikkyu0319.github.io/atom.xml" rel="self"/>
+  <link href="http://ikkyu0319.github.io/"/>
+  <updated>2014-08-13T21:56:44+08:00</updated>
+  <id>http://ikkyu0319.github.io/</id>
   <author>
-    <name><![CDATA[Sgxiang]]></name>
-    <email><![CDATA[sgxiang1992@icloud.com]]></email>
+    <name><![CDATA[一休]]></name>
+    
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
-    <title type="html"><![CDATA[Mantle使用]]></title>
-    <link href="http://sgxiang.github.io/blog/2014/01/11/mantleshi-yong/"/>
-    <updated>2014-01-11T22:15:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2014/01/11/mantleshi-yong</id>
-    <content type="html"><![CDATA[<p>Mantle可以很方便的去书写一个模型层的代码。</p>
-
-<p>使用它可以很方便的去反序列化JSON或者序列化为JSON(需要在<code>MTLModel</code>子类中实现<code>&lt;MTLJSONSerializing&gt;</code>协议)</p>
-
-<p>使用一个解释器<code>MTLJSONAdapter</code>去转换模型对象。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'><span class="n">MyObject</span> <span class="o">*</span><span class="n">myObject</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">modelOfClass:</span><span class="n">MyObject</span><span class="p">.</span><span class="n">class</span> <span class="nl">fromJSONDictionary:</span><span class="n">JSONDictionary</span> <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>  <span class="c1">//把JSONDictionary转换为模型对象</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">JSONDictionary</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">JSONDictionaryFromModel:</span><span class="n">myObject</span><span class="p">];</span>   <span class="c1">//将模型对象转为JSON字典</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3><code>+JSONKeyPathsByPropertyKey</code></h3>
-
-<p>这个方法返回一个字典，指定着你的模型对象和JSON中关键字的映射关系。</p>
-
-<p>一个例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">XYUser</span> : <span class="nc">MTLModel</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSDate</span> <span class="o">*</span><span class="n">createdAt</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">getter</span> <span class="o">=</span> <span class="n">isMeUser</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">meUser</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">XYUser</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nf">JSONKeyPathsByPropertyKey</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="err">@</span><span class="p">{</span>
-</span><span class='line'>        <span class="s">@&quot;createdAt&quot;</span><span class="o">:</span> <span class="s">@&quot;created_at&quot;</span><span class="p">,</span>   <span class="c1">//这里代表createdAt属性映射JSON中的created_at关键字</span>
-</span><span class='line'>        <span class="s">@&quot;meUser&quot;</span><span class="o">:</span> <span class="n">NSNull</span><span class="p">.</span><span class="n">null</span>        <span class="c1">//meUser不会从JSON中反序列化</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当我们用字典反序列化的时候</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">JSONDictionary</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span>
-</span><span class='line'>    <span class="s">@&quot;name&quot;</span><span class="o">:</span> <span class="s">@&quot;john&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">@&quot;created_at&quot;</span><span class="o">:</span> <span class="s">@&quot;2013/07/02 16:40:00 +0000&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">@&quot;plan&quot;</span><span class="o">:</span> <span class="s">@&quot;lite&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">XYUser</span> <span class="o">*</span><span class="n">user</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">modelOfClass:</span><span class="n">XYUser</span><span class="p">.</span><span class="n">class</span> <span class="nl">fromJSONDictionary:</span><span class="n">JSONDictionary</span> <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//user中的name为john  createdAt为2013/07/02 16:40:00 +0000 meUser为0 plan将会被忽略</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3><code>+JSONTransformerForKey:</code></h3>
-
-<p>实现这个方法去用一个不一样的类型转换器去转化属性</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSValueTransformer</span> <span class="o">*</span><span class="p">)</span><span class="nf">JSONTransformerForKey:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">key</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;createdAt&quot;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">NSValueTransformer</span> <span class="nl">valueTransformerForName:</span><span class="n">XYDateValueTransformerName</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>对于一些值的转换：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSValueTransformer</span> <span class="o">*</span><span class="p">)</span><span class="nf">createdAtJSONTransformer</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">MTLValueTransformer</span> <span class="nl">reversibleTransformerWithForwardBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">str</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">dateFormatter</span> <span class="nl">dateFromString:</span><span class="n">str</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span> <span class="nl">reverseBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">NSDate</span> <span class="o">*</span><span class="n">date</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">dateFormatter</span> <span class="nl">stringFromDate:</span><span class="n">date</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3><code>+classForParsingJSONDictionary:</code></h3>
-
-<p>如果定义了一个类簇，可以实现这个方法去转换。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">XYMessage</span> : <span class="nc">MTLModel</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">XYTextMessage</span>: <span class="nc">XYMessage</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">body</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">XYPictureMessage</span> : <span class="nc">XYMessage</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">XYMessage</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">Class</span><span class="p">)</span><span class="nf">classForParsingJSONDictionary:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">JSONDictionary</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">JSONDictionary</span><span class="p">[</span><span class="s">@&quot;image_url&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">XYPictureMessage</span><span class="p">.</span><span class="n">class</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">JSONDictionary</span><span class="p">[</span><span class="s">@&quot;body&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">XYTextMessage</span><span class="p">.</span><span class="n">class</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">NSAssert</span><span class="p">(</span><span class="n">NO</span><span class="p">,</span> <span class="s">@&quot;No matching class for the JSON dictionary &#39;%@&#39;.&quot;</span><span class="p">,</span> <span class="n">JSONDictionary</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">textMessage</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span>
-</span><span class='line'>    <span class="s">@&quot;id&quot;</span><span class="o">:</span> <span class="err">@</span><span class="mi">1</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">@&quot;body&quot;</span><span class="o">:</span> <span class="s">@&quot;Hello World!&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">pictureMessage</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span>
-</span><span class='line'>    <span class="s">@&quot;id&quot;</span><span class="o">:</span> <span class="err">@</span><span class="mi">2</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">@&quot;image_url&quot;</span><span class="o">:</span> <span class="s">@&quot;http://example.com/lolcat.gif&quot;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">XYTextMessage</span> <span class="o">*</span><span class="n">messageA</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">modelOfClass:</span><span class="n">XYMessage</span><span class="p">.</span><span class="n">class</span> <span class="nl">fromJSONDictionary:</span><span class="n">textMessage</span> <span class="nl">error:</span><span class="nb">NULL</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">XYPictureMessage</span> <span class="o">*</span><span class="n">messageB</span> <span class="o">=</span> <span class="p">[</span><span class="n">MTLJSONAdapter</span> <span class="nl">modelOfClass:</span><span class="n">XYMessage</span><span class="p">.</span><span class="n">class</span> <span class="nl">fromJSONDictionary:</span><span class="n">pictureMessage</span> <span class="nl">error:</span><span class="nb">NULL</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>数据的持久化</h3>
-
-<p><code>MTLModel</code>已经遵循了<code>&lt;NSCoding&gt;</code>协议，所以可以<code>NSKeyedArchiver</code>归档这个模型对象。</p>
+    <title type="html"><![CDATA[myTitle]]></title>
+    <link href="http://ikkyu0319.github.io/blog/2014/08/13/mytitle/"/>
+    <updated>2014-08-13T21:56:28+08:00</updated>
+    <id>http://ikkyu0319.github.io/blog/2014/08/13/mytitle</id>
+    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[【APP开发笔记】业务通]]></title>
-    <link href="http://sgxiang.github.io/blog/2014/01/07/%5B%28appkai-fa-bi-ji-%29%5D-ye-wu-tong/"/>
-    <updated>2014-01-07T20:27:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2014/01/07/[(appkai-fa-bi-ji-)]-ye-wu-tong</id>
-    <content type="html"><![CDATA[<p>目前还在做的一个项目。整理些资料以备用。</p>
+    <title type="html"><![CDATA[How To:升级Mac OS X上的GIT]]></title>
+    <link href="http://ikkyu0319.github.io/blog/2014/08/13/How-to-sheng-ji-mac-git/"/>
+    <updated>2014-08-13T21:49:00+08:00</updated>
+    <id>http://ikkyu0319.github.io/blog/2014/08/13/How-to-sheng-ji-mac-git</id>
+    <content type="html"><![CDATA[<p><a href="http://github.com">Github</a>
+<br></p>
 
-<p><img src="http://sgxiang.github.io/images/yewutong.png" alt="" /></p>
+<p>   在MacOSX下使用Homebrew或其它方式安装最新版本的GIT后，往往并不能使用，系统默认调用的依旧还是比较旧的版本，原因是已经通过XCode等方式安装过git，且它们的路径优先级较高。</p>
+
+<p>　 下面假设你已经通过Homebrew的brew install git成功安装了GIT，但系统默认使用的还是旧版本。</p>
+
+<h2>1. 检查系统默认调用的是否是通过Homebrew安装的最新版本</h2>
+
+<p>   Homebrew安装的GIT会被软链接到/usr/local/bin目录下，所以如果你使用which git看到的结果不是/usr/local/bin/git，那么你就需要通过后面的方法修改以便能够默认使用你所安装版本的GIT。</p>
+
+<pre><code>安装brew:
+curl -L http://github.com/mxcl/homebrew/tarball/master | tar xz –strip 1 -C /usr/local
+
+export PATH=/usr/local/bin:$PATH
+</code></pre>
+
+<p>安装成功后通过<code>brew install</code>查看brew版本</p>
+
+<h2>2. 移除系统自带的版本</h2>
+
+<p>   如果which git返回的结果是/usr/bin/git，说明你可能通过XCode安装了其自带的GIT，其版本一般都比较低，需要移除。</p>
+
+<pre><code>cd /usr/bin
+sudo mkdir backup-git-apple
+sudo mv git* backup-git-apple
+</code></pre>
+
+<h2>3. 移除可能存在的其它版本</h2>
+
+<p>   如果which git返回的结果是/usr/local/git/bin/git，则表示可能是你曾经使用git-osx-installer或其它方式安装过GIT，检查系统环境变量PATH可能还包含形如/usr/local/git/bin的路径。</p>
+
+<pre><code>sudo rm -rf /usr/local/git
+sudo rm /etc/paths.d/git
+sudo rm /etc/manpaths.d/git
+</code></pre>
+
+<p>   最后，重启终端，再次检查which git及git version。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在Mac上从零开始搭建基于Github的Octopress博客]]></title>
+    <link href="http://ikkyu0319.github.io/blog/2014/08/09/cong-ling-kai-shi-da-jian-ji-yu-githubde-octopressbo-ke/"/>
+    <updated>2014-08-09T10:49:00+08:00</updated>
+    <id>http://ikkyu0319.github.io/blog/2014/08/09/cong-ling-kai-shi-da-jian-ji-yu-githubde-octopressbo-ke</id>
+    <content type="html"><![CDATA[<p><a href="http://octopress.org">Octopress</a>
+<a href="http://github.com">Github</a>
+<br></p>
+
+<p>通过网络几篇文章整理的大致全面的教程。</p>
+
+<h2>1.安装Octopress</h2>
+
+<p>确保安装了<code>git</code>和<code>ruby1.9.3</code>,通过<code>brew</code>安装<code>rbenv</code>然后用<code>rbenv</code>安装<code>ruby</code>。</p>
+
+<h3>安装brew</h3>
+
+<p>先卸载MacPorts</p>
+
+<pre><code>sudo prot -f uninstall installed
+sudo rm -fr \
+</code></pre>
+
+<p>再安装brew</p>
+
+<pre><code>curl -L http://github.com/mxcl/homebrew/tarball/master | tar xz –strip 1 -C /usr/local
+
+export PATH=/usr/local/bin:$PATH
+</code></pre>
+
+<p>安装成功后通过<code>brew install</code>查看brew版本</p>
 
 <!--more-->
 
 
-<h4>从自定的xib文件中加载view</h4>
+<h3>安装ruby</h3>
 
-<p>CustomView *view =  [[NSBundle mainBundle] loadNibNamed:@&ldquo;CustomView&rdquo; owner:nil options:nil][0];</p>
+<pre><code>brew install rbenv
+brew install ruby-build
+rbenv install 1.9.3-p0
+rbenv rehash
+</code></pre>
 
-<h4>UISearchBar适配</h4>
+<h3>最后安装Octopress</h3>
 
-<p>在ios7之前，UISearchBar的视图树是这样的：</p>
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
 
-<p>UISearchBar => UISearchBarBackgroud、UISearchBarTextField</p>
+cd octopress
+gem install bundler
+rbenv rehash
+bundle install
+rake install
+</code></pre>
 
-<p>而在ios7中，视图树变成这样的：</p>
+<h3>配置Octopress</h3>
 
-<p>UISearchBar => UIView => UISearchBarBackgroud、UISearchBarTextField</p>
+<p>编辑 <code>config.yml</code>文件的<code>url</code>,<code>title</code>,<code>subtitle</code>,<code>author</code>。</p>
 
-<p>所以适配方面需要修改：</p>
+<p>最好把里面的twitter相关的信息全部删掉，否则由于GFW的原因，将会造成页面load很慢。同理，修改定制文件/source/_includes/custom/head.html 把google的自定义字体去掉。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &quot;ywtSearchBar.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">ywtSearchBar</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// Initialization code</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">load</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">load</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">keyboardType</span> <span class="o">=</span> <span class="n">UIKeyboardTypeDefault</span><span class="p">;</span>
-</span><span class='line'>    <span class="c1">//在ios7使提示语居中</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">IOS7</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithCString:</span><span class="s">&quot;搜索（请输入项目关键字）                        &quot;</span>  <span class="nl">encoding:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">placeholder</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithCString:</span><span class="s">&quot;搜索（请输入项目关键字）&quot;</span>  <span class="nl">encoding:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//禁止默认的取消按钮，在之后可以自定义</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">addSubview:</span><span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">view</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">addSubview:</span><span class="n">view</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">view</span> <span class="nl">isKindOfClass:</span><span class="n">UIButton</span><span class="p">.</span><span class="n">class</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">UIButton</span> <span class="o">*</span><span class="n">cancelButton</span> <span class="o">=</span> <span class="p">(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">view</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">cancelButton</span> <span class="nl">setTitle:</span><span class="s">@&quot;        &quot;</span> <span class="nl">forState:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">cancelButton</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="c1">//更改搜索框背景图片，适配ios7</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">layoutSubviews</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">UITextField</span> <span class="o">*</span><span class="n">searchField</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">__weak</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">view</span><span class="p">;</span>
-</span><span class='line'>    <span class="c1">//由于视图树改变了所以要做相应的判断</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">IOS7</span><span class="p">){</span>
-</span><span class='line'>        <span class="n">view</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>        <span class="n">view</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">subviews</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">NSUInteger</span> <span class="n">numViews</span> <span class="o">=</span> <span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="n">subviews</span> <span class="n">count</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numViews</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span><span class="p">([[</span><span class="n">view</span><span class="p">.</span><span class="n">subviews</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">]</span> <span class="nl">isKindOfClass:</span><span class="p">[</span><span class="n">UITextField</span> <span class="n">class</span><span class="p">]])</span> <span class="p">{</span> <span class="c1">//conform?</span>
-</span><span class='line'>            <span class="n">searchField</span> <span class="o">=</span> <span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="n">subviews</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">searchField</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">searchField</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">searchField</span> <span class="nl">setBackground:</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;searchBg&quot;</span><span class="p">]</span> <span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">searchField</span> <span class="nl">setBorderStyle:</span><span class="n">UITextBorderStyleNone</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">layoutSubviews</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
+<h3>安装支持新浪微博和Dribbble的Octopress的Greyshade主题</h3>
 
+<p>我现在用的就是greyshade主题</p>
 
-<p>而自定义搜索按钮，需要在UISearchDisplayController中修改</p>
+<pre><code> cd octopress
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//在将要开始搜索的时候添加上自定义的按钮上去</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">searchDisplayControllerDidBeginSearch:</span><span class="p">(</span><span class="n">UISearchDisplayController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">UIView</span> <span class="o">*</span><span class="n">topView</span> <span class="o">=</span> <span class="n">controller</span><span class="p">.</span><span class="n">searchBar</span><span class="p">.</span><span class="n">subviews</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">_searchBtn</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">_searchBtn</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIButton</span> <span class="nl">buttonWithType:</span><span class="n">UIButtonTypeCustom</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">_searchBtn</span> <span class="nl">setTitle:</span><span class="s">@&quot;     &quot;</span> <span class="nl">forState:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">_searchBtn</span> <span class="nl">setBackgroundImage:</span><span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;roundBtn&quot;</span><span class="p">]</span> <span class="nl">forState:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">_searchBtn</span> <span class="nl">setFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">270</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">27</span><span class="p">)];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">_searchBtn</span> <span class="nl">addTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">searchBarSearchButtonClicked:</span><span class="p">)</span> <span class="nl">forControlEvents:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">_searchBtn</span><span class="p">.</span><span class="n">superview</span> <span class="o">==</span><span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>         <span class="p">[</span><span class="n">topView</span> <span class="nl">addSubview:</span><span class="n">_searchBtn</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="c1">//在结束搜索的时候移除自定义的按钮</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">searchDisplayControllerWillEndSearch:</span><span class="p">(</span><span class="n">UISearchDisplayController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">_searchBtn</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+ git clone git@github.com:allenhsu/greyshade.git .themes/greyshade
 
+ echo "\$greyshade: color;" &gt;&gt; sass/custom/_colors.scss //替换 color 为自定义的链接高亮颜色
 
-<h4>UIPageControl适配</h4>
+ rake "install[greyshade]"
+</code></pre>
 
-<p>由于在ios7中UIPageControl的子视图不在是UIImageView所欲无法直接的更改小圆点的图片。做了如下适配：</p>
+<p>在_config.yml中加入</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &quot;YWTPageControl.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">YWTPageControl</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithFrame:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">frame</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">activeImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;FullPoint&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">inactiveImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;NullPoint&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setCurrentPageIndicatorTintColor:</span><span class="p">)]</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">self</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">setPageIndicatorTintColor:</span><span class="p">)])</span> <span class="p">{</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">setCurrentPageIndicatorTintColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">]];</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">setPageIndicatorTintColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">]];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="nl">setBackgroundColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">]];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setCurrentPage:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">currentPage</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">setCurrentPage:</span><span class="n">currentPage</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">IOS7</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="c1">//ios7中重绘视图</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">setNeedsDisplay</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>      <span class="c1">//ios7之前之间更换图片</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">updateDots</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">drawRect:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">iRect</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">IOS7</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">CGRect</span> <span class="n">rect</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">iRect</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">opaque</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="n">set</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">UIRectFill</span><span class="p">(</span><span class="n">iRect</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">_kSpacing</span> <span class="o">=</span> <span class="mf">5.0f</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">hidesForSinglePage</span> <span class="o">&amp;&amp;</span> <span class="n">self</span><span class="p">.</span><span class="n">numberOfPages</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">activeImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">numberOfPages</span> <span class="o">*</span> <span class="n">activeImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">numberOfPages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">_kSpacing</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">floorf</span><span class="p">((</span><span class="n">iRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">floorf</span><span class="p">((</span><span class="n">iRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">activeImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">numberOfPages</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">image</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">currentPage</span><span class="p">)</span> <span class="o">?</span> <span class="n">activeImage</span> <span class="o">:</span> <span class="n">inactiveImage</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect:</span><span class="n">rect</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">rect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">activeImage</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">_kSpacing</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">updateDots</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">subviews</span> <span class="n">count</span><span class="p">];</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">UIImageView</span><span class="o">*</span> <span class="n">dot</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">subviews</span> <span class="nl">objectAtIndex:</span><span class="n">i</span><span class="p">];</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">currentPage</span><span class="p">)</span> <span class="n">dot</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">activeImage</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">else</span> <span class="n">dot</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">inactiveImage</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
+<pre><code>weibo_user: xsxiang # 微博数字 ID 或域名 ID
+dribbble_user: 
+weibo_share: true # 是否开启微博分享按钮
+</code></pre>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[整洁的表视图]]></title>
-    <link href="http://sgxiang.github.io/blog/2014/01/06/zheng-ji-de-biao-shi-tu/"/>
-    <updated>2014-01-06T23:55:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2014/01/06/zheng-ji-de-biao-shi-tu</id>
-    <content type="html"><![CDATA[<h2>1.轻量化的表视图控制器</h2>
-
-<ol>
-<li>将Data Source和其他Protocols剥离开视图控制器</li>
-<li>将业务的逻辑处理移到Model层</li>
-<li>创建Store类，用来处理数据加载，缓存，数据库配置等。</li>
-<li>将Web服务逻辑移到Model层</li>
-<li>将View代码移到View Layer</li>
-</ol>
-
-
-<!--more-->
-
-
-<h2>2.整洁的表视图</h2>
-
-<h3>2.1子视图控制器</h3>
-
-<p>可以将一个表视图添加到另一个视图控制器，这样表视图控制器只需管理表视图，而父视图可以管理其他额外的界面元素。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addPhotoDetailsTableView</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">DetailsViewController</span> <span class="o">*</span><span class="n">details</span> <span class="o">=</span> <span class="p">[[</span><span class="n">DetailsViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">details</span><span class="p">.</span><span class="n">photo</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">photo</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">details</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span> <span class="nl">addChildViewController:</span><span class="n">details</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">CGRect</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">110</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">details</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview:</span><span class="n">details</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">details</span> <span class="nl">didMoveToParentViewController:</span><span class="n">self</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>表视图可以设置代理让父视图去响应。</p>
-
-<h3>2.2分离关注点</h3>
-
-<h4>桥接模型对象和单元之间的差距</h4>
-
-<p>我们经常将一个处理视图显示数据的任务放在表示图的数据来源里：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UITableViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">cellForRowAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">PhotoCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="n">tableView</span> <span class="nl">dequeueReusableCellWithIdentifier:</span><span class="s">@&quot;PhotoCell&quot;</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">Photo</span> <span class="o">*</span><span class="n">photo</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">itemAtIndexPath:</span><span class="n">indexPath</span><span class="p">];</span>    <span class="n">cell</span><span class="p">.</span><span class="n">photoTitleLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">photo</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">NSString</span><span class="o">*</span> <span class="n">date</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">dateFormatter</span> <span class="nl">stringFromDate:</span><span class="n">photo</span><span class="p">.</span><span class="n">creationDate</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">cell</span><span class="p">.</span><span class="n">photoDateLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">date</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在上面的代码中，数据源和cell的设计逻辑绑定在一起。我们可以将这部分放在cell的类别里重构：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@implementation</span> <span class="nc">PhotoCell</span> <span class="nl">(ConfigureForPhoto)</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">configureForPhoto:</span><span class="p">(</span><span class="n">Photo</span> <span class="o">*</span><span class="p">)</span><span class="nv">photo</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">photoTitleLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">photo</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">NSString</span><span class="o">*</span> <span class="n">date</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">dateFormatter</span> <span class="nl">stringFromDate:</span><span class="n">photo</span><span class="p">.</span><span class="n">creationDate</span><span class="p">];</span>
-</span><span class='line'>  <span class="n">self</span><span class="p">.</span><span class="n">photoDateLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">date</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样在调用的时候数据源的代码就会很清晰，同时将关注点分离开了。</p>
-
-<h3>2.3使cell可重用</h3>
-
-<h4>在cell中处理cell的状态</h4>
-
-<p>比如设置cell高亮和选中状态等。可以把这段逻辑放在cell中。</p>
-
-<h4>处理多种cell类型</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UITableViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nf">tableView:</span><span class="p">(</span><span class="n">UITableView</span> <span class="o">*</span><span class="p">)</span><span class="nv">tableView</span> <span class="nf">cellForRowAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">keys</span><span class="p">[(</span><span class="n">NSUInteger</span><span class="p">)</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
-</span><span class='line'>    <span class="kt">id</span> <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">photo</span> <span class="nl">valueForKey:</span><span class="n">key</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">UITableViewCell</span> <span class="o">*</span><span class="n">cell</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">key</span> <span class="nl">isEqual:</span><span class="n">PhotoRatingKey</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">cellForRating:</span><span class="n">value</span> <span class="nl">indexPath:</span><span class="n">indexPath</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">cell</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nl">detailCellForKey:</span><span class="n">key</span> <span class="nl">value:</span><span class="n">value</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">cell</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">RatingCell</span> <span class="o">*</span><span class="p">)</span><span class="nf">cellForRating:</span><span class="p">(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">rating</span> <span class="nf">indexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// ...</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">UITableViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nf">detailCellForKey:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span> <span class="nf">value:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">value</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// ...</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>table view的编辑</h4>
-
-<p>在编辑过程中，表数据源通过代理方法来获得通知。将处理数据的任务放在模型层上，控制器扮演视图和模型层之间的协调者。这样逻辑模型会很容易测试，不用理会和控制器层的交互任务。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[【APP开发笔记】天工OA]]></title>
-    <link href="http://sgxiang.github.io/blog/2014/01/03/%5B%28appkai-fa-bi-ji-%29%5D-tian-gong-oa/"/>
-    <updated>2014-01-03T22:03:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2014/01/03/[(appkai-fa-bi-ji-)]-tian-gong-oa</id>
-    <content type="html"><![CDATA[<p>从11月28号开始找到工作，就开始忙了，都无暇去顾及整理资料和学习。</p>
-
-<p>在公司前一个星期做了个内部的OA应用，现在慢慢整理一下项目相关的代码片段以备用。</p>
-
-<p><img src="http://sgxiang.github.io/images/Screenshot_1.png" alt="" /></p>
-
-<!--more-->
-
-
-<p><img src="http://sgxiang.github.io/images/Screenshot_2.png" alt="" /></p>
-
-<p><img src="http://sgxiang.github.io/images/Screenshot_3.png" alt="" /></p>
-
-<p><img src="http://sgxiang.github.io/images/Screenshot_4.png" alt="" /></p>
-
-<h4>UITabBar</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">tabBar</span><span class="p">.</span><span class="n">tintColor</span> <span class="o">=</span> <span class="n">UIColorFromRGB</span><span class="p">(</span><span class="n">WHITECOLOR</span><span class="p">);</span>   <span class="c1">//设置tabBar被选中时文字的颜色</span>
-</span><span class='line'><span class="n">UITabBarItem</span> <span class="o">*</span><span class="n">item</span><span class="o">=</span><span class="p">[[</span><span class="n">UITabBarItem</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTitle:</span><span class="s">@&quot;我的主页&quot;</span> <span class="nl">image:</span><span class="nb">nil</span> <span class="nl">tag:</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">item</span> <span class="nl">setFinishedSelectedImage:</span><span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;toolbar_today_work_selected&quot;</span><span class="p">]</span> <span class="nl">withFinishedUnselectedImage:</span><span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;toolbar_today_work&quot;</span><span class="p">]];</span>
-</span><span class='line'><span class="p">[</span><span class="n">item</span> <span class="nl">setTitleTextAttributes:</span><span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys:</span><span class="n">UIColorFromRGB</span><span class="p">(</span><span class="n">WHITECOLOR</span><span class="p">),</span> <span class="n">UITextAttributeTextColor</span><span class="p">,</span><span class="nb">nil</span><span class="p">]</span> <span class="nl">forState:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>修复ios7视图控制器返回手势</h4>
-
-<p>在ios7中如果push一个视图控制器，然后设置了self.navigationItem.leftBarButtonItem,那么在push过去的视图上无法使用ios7默认的在最左边滑动返回的功能。</p>
-
-<p>我的解决思路是：</p>
-
-<p>在主视图控制器上</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//.h文件</span>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">MainViewController</span> : <span class="nc">UINavigationController</span><span class="o">&lt;</span><span class="n">UIGestureRecognizerDelegate</span><span class="p">,</span><span class="n">UINavigationControllerDelegate</span><span class="o">&gt;</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'><span class="c1">//.m文件</span>
-</span><span class='line'><span class="cp">#define KindClass(x) ([viewController isMemberOfClass:[x class]])</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</span><span class='line'>    <span class="c1">//修复ios7手势</span>
-</span><span class='line'>    <span class="n">__weak</span> <span class="n">MainViewController</span> <span class="o">*</span><span class="n">weakSelf</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="n">interactivePopGestureRecognizer</span><span class="p">)]){</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">interactivePopGestureRecognizer</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">weakSelf</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">weakSelf</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pushViewController:</span><span class="p">(</span><span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="n">viewController</span> <span class="nl">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">animated</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">//修复ios7手势</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="n">interactivePopGestureRecognizer</span><span class="p">)]){</span>
-</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">interactivePopGestureRecognizer</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">super</span> <span class="nl">pushViewController:</span><span class="n">viewController</span> <span class="nl">animated:</span><span class="n">animated</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">navigationController:</span><span class="p">(</span><span class="n">UINavigationController</span> <span class="o">*</span><span class="p">)</span><span class="n">navigationController</span> <span class="nl">didShowViewController:</span><span class="p">(</span><span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="n">viewController</span> <span class="nl">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">animate</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">//修复ios7手势</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">KindClass</span><span class="p">(</span><span class="n">MyInfoTableViewController</span><span class="p">)</span><span class="o">||</span><span class="n">KindClass</span><span class="p">(</span><span class="n">UserWorkViewController</span><span class="p">)</span><span class="o">||</span><span class="n">KindClass</span><span class="p">(</span><span class="n">OrderViewController</span><span class="p">)</span><span class="o">||</span><span class="n">KindClass</span><span class="p">(</span><span class="n">SettingViewController</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="n">interactivePopGestureRecognizer</span><span class="p">)]){</span>
-</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">interactivePopGestureRecognizer</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nl">respondsToSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="n">interactivePopGestureRecognizer</span><span class="p">)]){</span>
-</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">interactivePopGestureRecognizer</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在push的时候设置掉手势，当将展示视图的时候在需要手势的视图中开启手势。</p>
-
-<h4>时间</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDate</span> <span class="o">*</span><span class="n">now</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="n">date</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSDateFormatter</span> <span class="o">*</span><span class="n">formatter</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDateFormatter</span> <span class="n">alloc</span><span class="p">]</span><span class="n">init</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">formatter</span> <span class="nl">setDateFormat:</span><span class="s">@&quot;HHmm&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">nowTime</span> <span class="o">=</span> <span class="p">[[</span><span class="n">formatter</span> <span class="nl">stringFromDate:</span><span class="n">now</span><span class="p">]</span><span class="n">intValue</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>判断ios7</h4>
-
-<p>#define IOS7 [[[UIDevice currentDevice]systemVersion] floatValue] >= 7.0</p>
-
-<h4>设置颜色</h4>
-
-<p>#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue &amp; 0xFF0000) >> 16))/255.0 green:((float)((rgbValue &amp; 0xFF00) >> 8))/255.0 blue:((float)(rgbValue &amp; 0xFF))/255.0 alpha:1.0]</p>
-
-<p>#define UIColorFromRGBAndAlpha(rgbValue,alphaValue) [UIColor colorWithRed:((float)((rgbValue &amp; 0xFF0000) >> 16))/255.0 green:((float)((rgbValue &amp; 0xFF00) >> 8))/255.0 blue:((float)(rgbValue &amp; 0xFF))/255.0 alpha:alphaValue]</p>
-
-<h4>通知</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//添加本地通知</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addOrUpdateNotificationWithKey:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span><span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">removeNotificationWithKey:</span><span class="n">key</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">UILocalNotification</span> <span class="o">*</span><span class="n">notification</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILocalNotification</span> <span class="n">alloc</span><span class="p">]</span><span class="n">init</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSDateFormatter</span> <span class="o">*</span><span class="n">dateFormatter</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDateFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">dateFormatter</span> <span class="nl">setDateFormat:</span><span class="s">@&quot;HH:mm&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSDate</span> <span class="o">*</span><span class="n">pushDate</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">notification</span><span class="o">!=</span><span class="nb">nil</span><span class="p">){</span>
-</span><span class='line'>        <span class="n">notification</span><span class="p">.</span><span class="n">timeZone</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSTimeZone</span> <span class="n">defaultTimeZone</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">notification</span><span class="p">.</span><span class="n">repeatInterval</span> <span class="o">=</span> <span class="n">kCFCalendarUnitDay</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">_user</span><span class="p">.</span><span class="n">isUseMusic</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">notification</span><span class="p">.</span><span class="n">soundName</span> <span class="o">=</span> <span class="n">UILocalNotificationDefaultSoundName</span><span class="p">;</span><span class="c1">//设置声音</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="c1">//设置推送时间和内容</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">([</span><span class="n">key</span> <span class="nl">isEqualToString:</span><span class="n">notificationOAKey</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">pushDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">dateFormatter</span> <span class="nl">dateFromString:</span><span class="n">_user</span><span class="p">.</span><span class="n">oaTime</span><span class="p">];</span>
-</span><span class='line'>            <span class="n">notification</span><span class="p">.</span><span class="n">alertBody</span> <span class="o">=</span> <span class="s">@&quot;写日志的时间到了&quot;</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>            <span class="n">notification</span><span class="p">.</span><span class="n">alertBody</span> <span class="o">=</span> <span class="s">@&quot;订餐时间到了&quot;</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">pushDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">dateFormatter</span> <span class="nl">dateFromString:</span><span class="s">@&quot;09:00&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="n">notification</span><span class="p">.</span><span class="n">fireDate</span> <span class="o">=</span> <span class="n">pushDate</span><span class="p">;</span>
-</span><span class='line'>        <span class="c1">//设置提示数目</span>
-</span><span class='line'>        <span class="n">notification</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>        <span class="c1">//设置携带的信息</span>
-</span><span class='line'>        <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObject:</span><span class="n">key</span> <span class="nl">forKey:</span><span class="s">@&quot;key&quot;</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">notification</span><span class="p">.</span><span class="n">userInfo</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">UIApplication</span> <span class="o">*</span><span class="n">app</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">app</span> <span class="nl">scheduleLocalNotification:</span><span class="n">notification</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">dateFormatter</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">notification</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="c1">//解除通知</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeNotificationWithKey:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">UIApplication</span> <span class="o">*</span><span class="n">app</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSArray</span> <span class="o">*</span><span class="n">localArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">app</span> <span class="n">scheduledLocalNotifications</span><span class="p">];</span>
-</span><span class='line'>    <span class="c1">//声明本地通知对象</span>
-</span><span class='line'>    <span class="n">UILocalNotification</span> <span class="o">*</span><span class="n">localNotification</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">localArray</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">UILocalNotification</span> <span class="o">*</span><span class="n">noti</span> <span class="k">in</span> <span class="n">localArray</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">dict</span> <span class="o">=</span> <span class="n">noti</span><span class="p">.</span><span class="n">userInfo</span><span class="p">;</span>
-</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">dict</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">NSString</span> <span class="o">*</span><span class="n">inKey</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict</span> <span class="nl">objectForKey:</span><span class="s">@&quot;key&quot;</span><span class="p">];</span>
-</span><span class='line'>                <span class="k">if</span> <span class="p">([</span><span class="n">inKey</span> <span class="nl">isEqualToString:</span><span class="n">key</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>                    <span class="k">if</span> <span class="p">(</span><span class="n">localNotification</span><span class="p">){</span>
-</span><span class='line'>                        <span class="n">localNotification</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span><span class='line'>                    <span class="p">}</span>
-</span><span class='line'>                    <span class="n">localNotification</span> <span class="o">=</span> <span class="p">[</span><span class="n">noti</span> <span class="n">copy</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>                    <span class="k">break</span><span class="p">;</span>
-</span><span class='line'>                <span class="p">}</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="c1">//判断是否找到已经存在的相同key的推送</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">localNotification</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="c1">//不存在初始化</span>
-</span><span class='line'>            <span class="n">localNotification</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILocalNotification</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">localNotification</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="c1">//不推送 取消推送</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">app</span> <span class="nl">cancelLocalNotification:</span><span class="n">localNotification</span><span class="p">];</span>
-</span><span class='line'>            <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeAllNotification</span><span class="p">{</span>
-</span><span class='line'>    <span class="p">[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span><span class="n">cancelAllLocalNotifications</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>程序在前台收到通知的处理：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didReceiveLocalNotification:</span><span class="p">(</span><span class="n">UILocalNotification</span><span class="o">*</span><span class="p">)</span><span class="nv">notification</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">UserObj</span> <span class="o">*</span><span class="n">user</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UsersInfoManage</span> <span class="n">sharedInstance</span><span class="p">]</span><span class="n">readUser</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">user</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">isUseMusic</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">//声音</span>
-</span><span class='line'>        <span class="n">AudioServicesPlaySystemSound</span><span class="p">(</span><span class="mi">1007</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">isUseShake</span><span class="p">){</span>
-</span><span class='line'>        <span class="n">AudioServicesPlaySystemSound</span><span class="p">(</span><span class="n">kSystemSoundID_Vibrate</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">([[</span><span class="n">notification</span><span class="p">.</span><span class="n">userInfo</span> <span class="nl">objectForKey:</span><span class="s">@&quot;key&quot;</span><span class="p">]</span><span class="nl">isEqualToString:</span><span class="n">notificationOAKey</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">UIAlertView</span> <span class="o">*</span><span class="n">alert</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTitle:</span><span class="s">@&quot;OA提醒&quot;</span> <span class="nl">message:</span><span class="n">notification</span><span class="p">.</span><span class="n">alertBody</span> <span class="nl">delegate:</span><span class="nb">nil</span> <span class="nl">cancelButtonTitle:</span><span class="s">@&quot;确定&quot;</span> <span class="nl">otherButtonTitles:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">alert</span> <span class="n">show</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>        <span class="n">UIAlertView</span> <span class="o">*</span><span class="n">alert</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTitle:</span><span class="s">@&quot;报餐提醒&quot;</span> <span class="nl">message:</span><span class="n">notification</span><span class="p">.</span><span class="n">alertBody</span> <span class="nl">delegate:</span><span class="nb">nil</span> <span class="nl">cancelButtonTitle:</span><span class="s">@&quot;确定&quot;</span> <span class="nl">otherButtonTitles:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">alert</span> <span class="n">show</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">application</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当点击图标进入程序时：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">applicationDidBecomeActive:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">application</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当在后台点击通知时：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIWindow</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="p">[[</span><span class="n">UIScreen</span> <span class="n">mainScreen</span><span class="p">]</span> <span class="n">bounds</span><span class="p">]];</span>
-</span><span class='line'>    <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="n">makeKeyAndVisible</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">application</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">launchOptions</span><span class="o">!=</span><span class="nb">nil</span><span class="p">){</span>
-</span><span class='line'>        <span class="c1">//从通知栏点击通知</span>
-</span><span class='line'>        <span class="n">UILocalNotification</span><span class="o">*</span> <span class="n">notification</span> <span class="o">=</span> <span class="p">[</span><span class="n">launchOptions</span> <span class="nl">objectForKey:</span><span class="n">UIApplicationLaunchOptionsLocalNotificationKey</span><span class="p">];</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">notification</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">){</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">self</span> <span class="nl">application:</span><span class="n">application</span> <span class="nl">didReceiveLocalNotification:</span><span class="n">notification</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>后记</h4>
-
-<p>其实一直想找个机会记录一下，可是老是拖了好久之后就忘了。一下子就2014年了，这一年将是很关键的一年，工作，爱情，还有学业各方面都走到了很关键的一步，希望今年能够顺利一点。</p>
-
-<p>有好几本书，还有好多文章没看，希望能够坚持下去看，踏实提升实力，慢慢成熟，努力实现和你的承诺。一起加油。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用关联引用在类目中实现属性]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/11/22/shi-yong-guan-lian-yin-yong-zai-lei-mu-zhong-shi-xian-shu-xing/"/>
-    <updated>2013-11-22T21:04:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/11/22/shi-yong-guan-lian-yin-yong-zai-lei-mu-zhong-shi-xian-shu-xing</id>
-    <content type="html"><![CDATA[<p>类目中不能添加实例变量，所以通过关联引用向对象添加键值数据。</p>
-
-<p>用到的两个方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">id</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="kt">id</span> <span class="n">object</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="kt">id</span> <span class="n">object</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="kt">id</span> <span class="n">value</span><span class="p">,</span> <span class="n">objc_AssociationPolicy</span> <span class="n">policy</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>让一个对象与另外一个对象关联，<code>object</code>可以保存对<code>value</code>的引用并获得这个对象。</p>
-
-<p>policy:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">enum</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">OBJC_ASSOCIATION_ASSIGN</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">OBJC_ASSOCIATION_COPY_NONATOMIC</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">OBJC_ASSOCIATION_RETAIN</span> <span class="o">=</span> <span class="mo">01401</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">OBJC_ASSOCIATION_COPY</span> <span class="o">=</span> <span class="mo">01403</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>eg</strong>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &lt;objc/runtime.h&gt;</span>
-</span><span class='line'><span class="k">@interface</span> <span class="nc">Person</span><span class="nl">(EmailAddress)</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readwrite</span><span class="p">,</span><span class="n">copy</span><span class="p">)</span><span class="n">NSString</span> <span class="o">*</span><span class="n">emailAddress</span><span class="p">;</span>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">Person</span><span class="nl">(EmailAddress)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="n">emailAddressKey</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">emailAddress</span><span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="o">&amp;</span><span class="n">emailAddressKey</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setEmailAddress:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">emailAddress</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="o">&amp;</span><span class="n">emailAddressKey</span><span class="p">,</span><span class="n">emailAddress</span><span class="p">,</span><span class="n">OBJC_ASSOCIATION_COPY</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>那两个方法很方便的就实现了属性的getter和setter。</p>
-
-<p>另外的一个例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//为alert关联一个对象</span>
-</span><span class='line'><span class="kt">id</span> <span class="n">someObj</span> <span class="o">=</span> <span class="p">...;</span>
-</span><span class='line'><span class="n">UIAlertView</span> <span class="o">*</span><span class="n">alert</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span>
-</span><span class='line'>                      <span class="nl">initWithTitle:</span><span class="s">@&quot;title&quot;</span>
-</span><span class='line'>                      <span class="nl">message:</span><span class="nb">nil</span>
-</span><span class='line'>                      <span class="nl">delegate:</span><span class="n">self</span>
-</span><span class='line'>                      <span class="nl">cancelButtonTitle:</span><span class="s">@&quot;ok&quot;</span>
-</span><span class='line'>                      <span class="nl">otherButtonTitles:</span><span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'><span class="c1">//创建关联</span>
-</span><span class='line'><span class="n">objc_setAssociatedObject</span><span class="p">(</span><span class="n">alert</span><span class="p">,</span><span class="o">&amp;</span><span class="n">someKey</span><span class="p">,</span><span class="n">someOjb</span><span class="p">,</span><span class="n">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="p">);</span>
-</span><span class='line'><span class="p">[</span><span class="n">alert</span> <span class="n">show</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//alert完成后的触发</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">alertView:</span><span class="p">(</span><span class="n">UIAlertView</span> <span class="o">*</span><span class="p">)</span><span class="nv">alertView</span> <span class="nf">clickedButtonAtIndex:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">buttonIndex</span><span class="p">{</span>
-</span><span class='line'>  <span class="c1">//取得关联</span>
-</span><span class='line'>  <span class="n">UIButton</span> <span class="o">*</span><span class="n">sender</span> <span class="o">=</span> <span class="n">objc_getAssociatedObject</span><span class="p">(</span><span class="n">alertView</span><span class="p">,</span><span class="o">&amp;</span><span class="n">someKey</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,[[</span><span class="n">sender</span> <span class="n">titleLabel</span><span class="p">]</span><span class="n">text</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[从C声明谈到Objective-C块声明]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/11/20/cong-csheng-ming-tan-dao-objective-ckuai-sheng-ming/"/>
-    <updated>2013-11-20T23:51:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/11/20/cong-csheng-ming-tan-dao-objective-ckuai-sheng-ming</id>
-    <content type="html"><![CDATA[<p>在这篇文章中，我将从最基本的C声明符开始逐步过渡到复杂的Ojbective-C的blocks语法。我花了一些时间去理解block语法，但是你一旦了解了它是如果组织和构成的，在你需要声明一个block的时候就不用无时无刻去google了。</p>
-
-<h2>Declarators声明符</h2>
-
-<p>变量的声明在C(Objective-c)中用声明符。</p>
-
-<p>一个声明符有2个规则：</p>
+<p>关于greyshade主题的头像问题，有两种途径可以设置头像</p>
 
 <ul>
-<li>指定变量的类型</li>
-<li>给变量一个名称让它在合适的范围里使用</li>
+<li>在_config.yml文件中设置一个email，然后到gravatar网站上添加该email并上传一张头像</li>
+<li>将需要使用的图片放到/source/images下。然后把/source/_includes/header.html文件中的img替换成 《img alt=“Profile Picture” src=“/images/tx.png” style=“width:160px;”》</li>
 </ul>
 
 
-<p>从最基本的声明符开始：</p>
+<h3>配置Disqus插件</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Disqus是octopress内置的comments功能，编辑<code>config.yml</code>文件可以打开该功能，找到以下内容修改</p>
 
+<pre><code>#Disqus comments
+disqus_short_name: 
+disqus_show_comment_count: false
+</code></pre>
 
-<p><code>int</code>是基本类型，<code>a</code>是一个变量名称或者称为标识符。</p>
+<p>填入注册<a href="http://disqus.com">disqus</a>账号的名称，并将false修改为true。【disqus要和自己的username.github.com关联上】</p>
 
-<p>你会从标识符开始然后从右阅读直到末尾，然后从变量左边开始。</p>
+<h2>2.配置github相关</h2>
 
-<p>在这里右边没有任何东西所以它直截了当：<code>a</code>是一个<code>int</code>。</p>
+<h3>在本机创建ssh</h3>
 
-<p>一个声明只能有1个基本类型，它是最左边的字的说明符。</p>
+<pre><code>cd ~/.ssh
+ssh-keygen -t rsa -C 你注册github时的email
+</code></pre>
 
-<p>说明符可以使用修饰符创建派生类型来修改基本类型。有4个修饰符：<code>*</code>,<code>[]</code>,<code>()</code>,<code>^</code>。</p>
+<p>弹出<code>Enter file in which to save the key (/Users/twer/.ssh/id_rsa):</code>直接按空格</p>
 
-<!--more-->
+<p>弹出<code>Enter passphrase (empty for no passphrase):</code>输入你github账号的密码。<code>Enter same passphrase again:</code>再次输入你的密码。</p>
 
+<p>打开~/.ssh下的id_rsa.pub文件复制里面的全部内容。
+登陆github，选择Account Settings&ndash;>SSH Public Keys 添加ssh，把剪切板的内容复制到key输入框内直接保存。</p>
 
-<h2>指针修饰符 *</h2>
+<p>测试shh:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+<pre><code>ssh git@github.com
+</code></pre>
 
+<p>输出</p>
 
-<p>基本类型依然是<code>int</code>，它的名称依然是变量<code>a</code>。但是指针修饰符<code>*</code>告诉我们<code>a</code>是一个指向<code>int</code>的指针而不是一个<code>int</code>。</p>
+<pre><code>PTY allocation request failed on channel 0
+Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+Connection to github.com closed.
+</code></pre>
 
-<p><code>*</code>修饰符通常出现在左边去修饰变量。</p>
+<p>代表成功</p>
 
-<h2>数组修饰符 []</h2>
+<h3>建立一个仓库</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="n">a</span><span class="p">[];</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>登陆github<a href="https://github.com/new">创建一个仓库</a> ，仓库名称为username.github.com比如我的是sgxiang.github.com</p>
 
+<h2>3.部署博客到github</h2>
 
-<p>在这里我们可以看到，数组修饰符<code>[]</code>告诉我们<code>a</code>现在是一个<code>int</code>数组而不是一个简单的<code>int</code>。我们还可以定义数组的个数例如<code>int a[10]</code>。</p>
+<p>利用octopress的一个配置rake任务来自动配置上面创建的仓库：可以让我们方便的部署GitHub page。在终端输入如下命令：</p>
 
-<p>数组修饰符<code>[]</code>总是在右边修饰变量。</p>
+<pre><code>rake setup_github_pages
+</code></pre>
 
-<h2>函数修饰符 ()</h2>
+<p>弹出之后输入<code>git@github.com:your_username/your_username.github.com.git</code>不要用提示的io，我的是<code>git@github.com:ikkyu0319/ikkyu0319.github.com.git</code></p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="nf">f</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><strong>输入以下命令部署博客</strong></p>
 
+<pre><code>rake generate
+rake deploy
+</code></pre>
 
-<p>函数修饰符<code>()</code>告诉我们<code>f</code>是一个函数它返回一个<code>int</code>。这个修饰符还可以指定函数的参数，例如<code>int f(long)</code>，这个函数带有一个<code>long</code>类型的参数以及返回一个<code>int</code>。</p>
+<p>如果无法push到仓库的master分支，尝试在项目目录的.git/config中添加</p>
 
-<p>函数修饰符<code>()</code>总是在右边修饰变量。</p>
+<pre><code>[branch "master"]
+ remote = origin
+ merge = refs/heads/master
+</code></pre>
 
-<h2>指针和数组</h2>
+<p>博客的source需要单独提交，执行如下命令就可以将source提交到仓库的source分支下</p>
 
-<p>修饰符可以组合来创建复杂的变量类型。修饰符和算术运算符一样有优先级的区分。<code>[]</code>和<code>()</code>比<code>*</code>(<code>^</code>)拥有更高的优先级。2个高级的修饰符被正确的写入变量的时候，当我们阅读复制的声明的时候，<strong>你总是从标识符开始然后向右阅读直到末尾或者一个括号的结尾然后才回到左边</strong>。</p>
+<pre><code>git add .
+git commit -m 'Initial source commit'
+git push origin source
+</code></pre>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">[];</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>部署前可以在本地预览，输入<code>rake preview</code>之后在浏览器输入<code>http://localhost:4000/</code>来访问</p>
 
+<h2>4.写博客</h2>
 
-<p>我们可以通过加括号来提高可读性</p>
+<p>通过命令</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="p">[]);</span>
-</span></code></pre></td></tr></table></div></figure>
+<pre><code>rake new_post["myTitle"]
+</code></pre>
 
+<p>文章生成在目录下的<code>source/_posts</code>目录下。文章是markdown格式的。可以通过 <a href="http://mouapp.com">Mou</a> 软件来编辑保存。</p>
 
-<p>这是一个指向<code>int</code>的指针的数组。</p>
+<p>关于markdown的格式可以参考这篇文章:<a href="http://wowubuntu.com/markdown/">http://wowubuntu.com/markdown/</a></p>
 
-<p>但是你可能会问，如果我想要有一个指向<code>int</code>数组的指针呢？因为<code>*</code>比<code>[]</code>的优先级低，所以你需要括号<code>[]</code>来提高它的优先级。</p>
+<p>写完后就可以部署更新文章到github上了</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)[]</span>
-</span></code></pre></td></tr></table></div></figure>
+<pre><code>rake generate
+git add .
+git commit -am "Some comment here." 
+git push origin source
+rake deploy
+</code></pre>
 
-
-<p><code>a</code>现在是一个指针变量，指向一个<code>int</code>数组。</p>
-
-<h2>数组和函数</h2>
-
-<p>你不可能有定义一个函数数组和返回一个数组或者函数。一个函数可以将数组作为参数。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="nf">f</span><span class="p">(</span><span class="kt">int</span> <span class="p">[</span><span class="mi">10</span><span class="p">]);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个函数带有10个<code>int</code>类型的参数以及返回<code>int</code>。</p>
-
-<h2>指针和函数</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="o">*</span><span class="nf">f</span><span class="p">();</span>
-</span><span class='line'><span class="kt">int</span> <span class="o">*</span><span class="p">(</span><span class="n">f</span><span class="p">());</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这两种情况下，<code>f</code>是一个函数，返回一个指向<code>int</code>的指针。</p>
-
-<p>如果想要一个指向函数的指针呢？<strong>括号！</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">f</span><span class="p">)();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>f</code>是一个指向函数的指针，返回<code>int</code>。</p>
-
-<h2>块指针修饰符 ^</h2>
-
-<p>苹果公司在其扩展的ANSI-C标准中提出第四个修饰符：<code>^</code>。这个修饰符称为块。块和指向函数的指针很类似。你声明块的方式类似与声明一个指针函数。</p>
-
-<p>块指针修饰符只能应用到一个函数中（你不能这样写<code>int ^a</code>，这不是一个合法的定义）。</p>
-
-<p>这就是为什么<code>int ^b()</code>是非法的，这会导致一个编译错误：当你用优先级的规则阅读这个声明的时候，<code>b</code>将是一个函数，返回一个块指针指向<code>int</code>。这就是为什么你声明块的时候你需要将<code>^</code>和标识符放在括号<code>()</code>中。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="p">(</span><span class="o">^</span><span class="n">b</span><span class="p">)()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>b</code>是一个块指针指向一个函数，返回<code>int</code>。或者缩写为块返回<code>int</code>。</p>
-
-<p>当然，你可以在需要的时候指定其参数：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">int</span> <span class="p">(</span><span class="o">^</span><span class="n">b</span><span class="p">)(</span><span class="kt">long</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个块带有一个参数返回<code>int</code>。</p>
-
-<p>这就是块声明的来源。</p>
-
-<p>现在你已经了解了，在使用块的时候这里还有一些其他的语法需要你记住：一个用于定义一个块字面量，另一个是快递一个块给objective-c函数。</p>
-
-<h2>抽象的声明符</h2>
-
-<p>一个声明符由两件事组成：一个抽象声明符在其中插入标识符。</p>
-
-<p>C中使用抽象声明符的3个cases:</p>
+<p><strong>参考文章</strong></p>
 
 <ul>
-<li>在这描述中：<code>int *a; long *b = (long *)a;</code>,<code>(long *)</code>是一个抽象声明符，是一个指向<code>long</code>的指针。</li>
-<li>sizeof()作为参数：<code>malloc(sizeof(long *));</code></li>
-<li>声明参数类型给函数：<code>int f(long *);</code></li>
+<li><a href="http://m.blog.csdn.net/blog/duck_genuine/7736037">http://m.blog.csdn.net/blog/duck_genuine/7736037</a></li>
+<li><a href="http://www.imallen.com/blog/2013/10/16/deploying-octopress-to-qiniu.html">http://www.imallen.com/blog/2013/10/16/deploying-octopress-to-qiniu.html</a></li>
+<li><a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/</a></li>
+<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a></li>
+<li><a href="http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html">http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html</a></li>
+<li><a href="http://xautjzd.github.io/blog/2013/07/18/add-navigator/">http://xautjzd.github.io/blog/2013/07/18/add-navigator/</a></li>
+<li><a href="http://xautjzd.github.io/blog/2013/07/18/congfig-disqus-plugin/">http://xautjzd.github.io/blog/2013/07/18/congfig-disqus-plugin/</a></li>
+<li><a href="http://gilguan.github.io/blog/2013/10/16/zai-macshang-shi-yong-octopressda-jian-githubbo-ke/">http://gilguan.github.io/blog/2013/10/16/zai-macshang-shi-yong-octopressda-jian-githubbo-ke/</a></li>
 </ul>
-
-
-<p>objective-c可以在更多地方使用抽象声明符：声明方法参数或函数返回值。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">long</span> <span class="o">**</span><span class="p">)</span><span class="nf">methodWithArgument:</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="nv">a</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>long **</code>和<code>int *</code>是抽象声明。</p>
-
-<p>所以为了在objective-c中使用块作为参数或返回值，我们需要去找到这些块的抽象声明符。我们可以通过取得声明符和删除标识符来得到。</p>
-
-<p><code>int (^b)()</code>变成<code>int (^)()</code>。<code>int (^b)(long)</code>变为<code>int (^)(long)</code>。</p>
-
-<p>例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">methodWithArgument:</span><span class="p">(</span><span class="kt">int</span><span class="p">(</span><span class="o">^</span><span class="p">)())</span><span class="nv">block</span><span class="p">;</span>
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">anotherMethodWithArgument:</span><span class="p">(</span><span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">long</span> <span class="n">arg1</span><span class="p">))</span><span class="nv">block</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>虽然你不需要参数的名字出现在块抽象的声明符中，当时这是一个很好的做法。它会给你一个很好的暗示当解析参数的时候，xcode会自动的完成它们来让你的在使用这个函数的时候变得更加方便。</p>
-
-<h2>块字面量</h2>
-
-<p>当你这样写的时候：<code>int a=2;</code>，<code>a</code>是一个声明符，2是对于<code>int</code>的字面量。</p>
-
-<p><code>^</code>也被用作为一元运算符将一个函数变为一个块。你不需要指定返回类型，它会在返回语句中去推断，你也可以去添加它，这都一样。</p>
-
-<p>为了实现这个块，你需要去命名它的参数。</p>
-
-<p>所以对于块<code>int (^block)(long,long);</code>来说，其字面量是：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">block</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">long</span> <span class="n">a</span><span class="p">,</span><span class="kt">long</span> <span class="n">b</span><span class="p">){</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>译自：<a href="http://nilsou.com/blog/2013/08/21/objective-c-blocks-syntax/">http://nilsou.com/blog/2013/08/21/objective-c-blocks-syntax/</a></strong></p>
-
-<hr />
-
-<h2>怎样在objective-c中定义块？</h2>
-
-<p>作为本地变量：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">returnType</span> <span class="p">(</span><span class="o">^</span><span class="n">blockName</span><span class="p">)(</span><span class="n">parameterTypes</span><span class="p">)</span> <span class="o">=</span> <span class="o">^</span><span class="n">returnType</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{...};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>作为属性：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">returnType</span> <span class="p">(</span><span class="o">^</span><span class="n">blockName</span><span class="p">)(</span><span class="n">parameterTypes</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>作为函数参数：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">someMethodThatTakesABlock:</span><span class="p">(</span><span class="n">returnType</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">parameterTypes</span><span class="p">))</span><span class="nv">blockName</span> <span class="p">{...}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>作为参数去响应函数：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="n">someObject</span> <span class="nl">someMethodThatTakesABlock:</span> <span class="o">^</span><span class="n">returnType</span> <span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{...}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>作为typedef：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">typedef</span> <span class="nf">returnType</span> <span class="p">(</span><span class="o">^</span><span class="n">TypeName</span><span class="p">)(</span><span class="n">parameterTypes</span><span class="p">);</span>
-</span><span class='line'><span class="n">TypeName</span> <span class="n">blockName</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{...}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong> 来自:<a href="http://fuckingblocksyntax.com">http://fuckingblocksyntax.com</a> </strong></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ios隐藏键盘]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/11/20/iosyin-cang-jian-pan/"/>
-    <updated>2013-11-20T20:51:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/11/20/iosyin-cang-jian-pan</id>
-    <content type="html"><![CDATA[<p>点击UIViewController的任意地方，就可以dismiss keyboard,最简单的办法就是在VC中override以下方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan:</span><span class="p">(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">endEditing:</span><span class="n">YES</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外的方法：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//用于拿view比较困难的时候</span>
-</span><span class='line'><span class="p">[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span><span class="nl">sendAction:</span><span class="k">@selector</span><span class="p">(</span><span class="n">resignFirstResponder</span><span class="p">)</span> <span class="nl">to:</span><span class="nb">nil</span> <span class="nl">from:</span><span class="nb">nil</span> <span class="nl">forEvent:</span><span class="nb">nil</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span><span class="n">keyWindow</span><span class="p">]</span><span class="nl">endEditing:</span><span class="n">YES</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[近期计划]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/11/15/jin-qi-ji-hua/"/>
-    <updated>2013-11-15T22:07:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/11/15/jin-qi-ji-hua</id>
-    <content type="html"><![CDATA[<ul>
-<li>个人新app的开发</li>
-<li>毕业论文的资料收集</li>
-<li><del>面试工作</del></li>
-<li>设计的学习</li>
-<li><del>女友的生日礼物</del></li>
-<li>ios关于网络编程的知识整理</li>
-<li><del>ios关于块的知识整理</del></li>
-</ul>
-
-
-<p>关于9个技术问题的整理：</p>
-
-<p>(from:<a href="http://wufawei.com/2013/05/11-interview-questions/">11个iOS面试问题</a>)</p>
-
-<ul>
-<li>如何处理异步网络事件</li>
-<li>用过多线程的Core Data吗，使用的哪种方法</li>
-<li>用过Core Animation哪种动画</li>
-<li>用过Core Graphics吗？</li>
-<li>NSNotification和KVO的用法和区别，它们的使用场景</li>
-<li>如何使用NSOperationQueue</li>
-<li>讲讲自己使用CoreText的经验</li>
-<li>后台线程如何使用NSURLConnection</li>
-<li>使用block应该注意的地方</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ARC基础]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/11/11/arcji-chu/"/>
-    <updated>2013-11-11T20:22:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/11/11/arcji-chu</id>
-    <content type="html"><![CDATA[<p>在手工内存管理中，需要retain一个对象让其可用。</p>
-
-<p>在ARC中只需让一个指针指向那个对象。有变量指针指向那个对象，那么它就会一直存在内存中。</p>
-
-<p>当指针指向另外一个对象或不存在的时候，那个关联的对象才会被释放掉。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">firstName</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">textField</span><span class="p">.</span><span class="n">text</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>firstName变量为文本框中内容字符串对象的所有者</p>
-
-<p>text属性也是所有者</p>
-
-<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2011/10/Pointers2-500x265.png" alt="" /></p>
-
-<!--more-->
-
-
-<p>当用户输入新的文字时</p>
-
-<p>text&mdash;>新的</p>
-
-<p>firstName&mdash;>旧的</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2011/10/Pointers3-500x235.png" alt="" /></p>
-
-<p>当firstName &mdash;>新值或者超出作用范围的时候，字符串对象才会被释放</p>
-
-<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2011/10/Pointers4-500x198.png" alt="" /></p>
-
-<p>firstName和textFiled.text为strong的类型指针。默认所有变量都是strong指针。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">__weak</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">weakName</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">textFiled</span><span class="p">.</span><span class="n">text</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2011/10/Pointers5-500x241.png" alt="" /></p>
-
-<p>weak指针类型不能成为所有者，当文本框的内容改变了，那么字符串对象就会被释放。</p>
-
-<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2011/10/Pointers6-500x209.png" alt="" /></p>
-
-<p>weak大多在两个父子关系对象上比较有用。</p>
-
-<p>父对象有个strong指针指向子对象，为了防止关系循环，子对象仅仅有一个weak指针指向父对象。</p>
-
-<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2011/10/Pointers7-500x212.png" alt="" /></p>
-
-<p><strong>  ARC 在适当的位置处理了 retain 和 release，仍然存在一些情况，需要手动的把这些指针设置为 nil，不然应用将会耗尽可用内存。如果一直保持所有创建的对象都存活，那么 ARC 将不能释放他们。 因此，当创建一个新对象的时候，需要考虑谁拥有它，还有这个对象应该存活多久。 </strong></p>
-
-<hr />
-
-<ul>
-<li><p><strong> strong </strong> “retain” 的一个代号。会成为它所指对象的所有者。</p></li>
-<li><p><strong> weak </strong> 弱引用指针。它指向的对象被销毁时，它会被自动的设置成 nil。</p></li>
-<li><p><strong> unsafe_unretained </strong> 等同“assign” 。</p></li>
-<li><p><strong> copy </strong> 它创建一个对象的拷贝，并且创建一个强引用关系。</p></li>
-<li><p><strong> assign </strong> 不允许在对象上用这个修饰符， 但仍然能在简单类型的值，比如 BOOL,int 和 float 中用到它。</p></li>
-</ul>
-
-
-<hr />
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">strong</span><span class="p">,</span><span class="n">readonly</span><span class="p">)</span><span class="n">NSString</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong> 如果定义了一个属性，那么应该用 self.propName 的形式来访问它， 而不是通过后端的实例变量(除非是在 init 方法，或者自定义的 getter 和 setter 方法中)。 </strong></p>
-
-<p>不用arc编译的加上-no-bojc-arc标签</p>
-
-<hr />
-
-<p>整理自：<a href="http://www.raywenderlich.com/5677/beginning-arc-in-ios-5-part-1">raywenderlich</a></p>
-
-<p>其他学习ARC文章:</p>
-
-<ul>
-<li><a href="https://developer.apple.com/library/ios/#releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html">苹果官方文档</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[oc归档]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/11/10/ocgui-dang/"/>
-    <updated>2013-11-10T22:53:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/11/10/ocgui-dang</id>
-    <content type="html"><![CDATA[<h3>writeToFile:atomically:</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">glossary</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys:</span><span class="s">@&quot;TestClass&quot;</span><span class="p">,</span><span class="s">@&quot;className&quot;</span><span class="p">,</span><span class="s">@&quot;TestText&quot;</span><span class="p">,</span><span class="s">@&quot;classText&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="p">([</span><span class="n">glossary</span> <span class="nl">writeToFile:</span><span class="s">@&quot;glossary&quot;</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">]</span><span class="o">==</span><span class="n">NO</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;save to file failed&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;succeed&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">gly</span> <span class="o">=</span>  <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithContentsOfFile:</span><span class="s">@&quot;glossary&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="k">in</span> <span class="n">gly</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@:%@&quot;</span><span class="p">,</span><span class="n">key</span><span class="p">,[</span><span class="n">glossary</span> <span class="nl">objectForKey:</span><span class="n">key</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!--more-->
-
-
-<h3>NSKeyedArchiver</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">glossary</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObjectsAndKeys:</span><span class="s">@&quot;TestClass&quot;</span><span class="p">,</span><span class="s">@&quot;className&quot;</span><span class="p">,</span><span class="s">@&quot;TestText&quot;</span><span class="p">,</span><span class="s">@&quot;classText&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">NSKeyedArchiver</span> <span class="nl">archiveRootObject:</span><span class="n">glossary</span> <span class="nl">toFile:</span><span class="s">@&quot;glossary.archive&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">read</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSKeyedUnarchiver</span> <span class="nl">unarchiveObjectWithFile:</span><span class="s">@&quot;glossary.archive&quot;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="k">in</span> <span class="n">read</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@:%@&quot;</span><span class="p">,</span><span class="n">key</span><span class="p">,[</span><span class="n">glossary</span> <span class="nl">objectForKey:</span><span class="n">key</span><span class="p">]);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>归档自定义对象</h3>
-
-<h5>对象要实现NSCoding协议和encodeWithCoder:及initWithCoder:方法</h5>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">encodeWithCoder:</span><span class="p">(</span><span class="n">NSCoder</span> <span class="o">*</span><span class="p">)</span><span class="nv">aCoder</span><span class="p">{</span>
-</span><span class='line'>  <span class="p">[</span><span class="n">aCoder</span> <span class="nl">encodeObject:</span><span class="n">_name</span> <span class="nl">forKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">aCoder</span> <span class="nl">encodeInt:</span><span class="n">_age</span> <span class="nl">forKey:</span><span class="s">@&quot;age&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>  
-</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">initWithCoder:</span><span class="p">(</span><span class="n">NSCoder</span> <span class="o">*</span><span class="p">)</span><span class="nv">aDecoder</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">aDecoder</span> <span class="nl">decodeObjectForKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">_age</span> <span class="o">=</span> <span class="p">[</span><span class="n">aDecoder</span> <span class="nl">decodeIntForKey:</span><span class="s">@&quot;age&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>使用NSData</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSMutableData</span> <span class="o">*</span><span class="n">dataArea</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSKeyedArchiver</span> <span class="o">*</span><span class="n">archiver</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSKeyedArchiver</span> <span class="n">alloc</span><span class="p">]</span><span class="nl">initForWritingWithMutableData:</span><span class="n">dataArea</span><span class="p">];</span>
-</span><span class='line'>  
-</span><span class='line'><span class="p">[</span><span class="n">archiver</span> <span class="nl">encodeObject:</span><span class="n">_name</span> <span class="nl">forKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">archiver</span> <span class="n">finishEncoding</span><span class="p">];</span>
-</span><span class='line'>  
-</span><span class='line'><span class="p">[</span><span class="n">dataArea</span> <span class="nl">writeToFile:</span><span class="s">@&quot;fileName&quot;</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>读取的时候</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSMutableData</span> <span class="o">*</span><span class="n">dataArea</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableData</span> <span class="n">data</span><span class="p">];</span>
-</span><span class='line'><span class="n">NSKeyedUnarchiver</span> <span class="o">*</span><span class="n">unarchiver</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSKeyedUnarchiver</span> <span class="n">alloc</span><span class="p">]</span><span class="nl">initForReadingWithData:</span><span class="n">dataArea</span><span class="p">];</span>
-</span><span class='line'>  
-</span><span class='line'><span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="n">unarchiver</span> <span class="nl">decodeObjectForKey:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
-</span><span class='line'>  
-</span><span class='line'><span class="p">[</span><span class="n">unarchiver</span> <span class="n">finishDecoding</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[git相关]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/11/08/githubxiang-guan/"/>
-    <updated>2013-11-08T01:10:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/11/08/githubxiang-guan</id>
+    <link href="http://ikkyu0319.github.io/blog/2014/08/09/githubxiang-guan/"/>
+    <updated>2014-08-09T01:10:00+08:00</updated>
+    <id>http://ikkyu0319.github.io/blog/2014/08/09/githubxiang-guan</id>
     <content type="html"><![CDATA[<p>整理来源：<strong><em> <a href="http://www.worldhello.net/gotgithub/index.html">http://www.worldhello.net/gotgithub/index.html</a> </em></strong></p>
 
 <p><strong>一张git操作的思维导图：</strong></p>
@@ -2061,207 +465,6 @@ $ git push
 // git config branch.master.rebase true
 // git config —global branch.autosetuprebase true
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在Mac上从零开始搭建基于Github的Octopress博客]]></title>
-    <link href="http://sgxiang.github.io/blog/2013/10/18/cong-ling-kai-shi-da-jian-ji-yu-githubde-octopressbo-ke/"/>
-    <updated>2013-10-18T10:49:00+08:00</updated>
-    <id>http://sgxiang.github.io/blog/2013/10/18/cong-ling-kai-shi-da-jian-ji-yu-githubde-octopressbo-ke</id>
-    <content type="html"><![CDATA[<p><a href="http://octopress.org">Octopress</a>
-<a href="http://github.com">Github</a></p>
-
-<br>
-
-
-<p>通过网络几篇文章整理的大致全面的教程。</p>
-
-<h2>1.安装Octopress</h2>
-
-<p>确保安装了<code>git</code>和<code>ruby1.9.3</code>,通过<code>brew</code>安装<code>rbenv</code>然后用<code>rbenv</code>安装<code>ruby</code>。</p>
-
-<h3>安装brew</h3>
-
-<p>先卸载MacPorts</p>
-
-<pre><code>sudo prot -f uninstall installed
-sudo rm -fr \
-</code></pre>
-
-<p>再安装brew</p>
-
-<pre><code>curl -L http://github.com/mxcl/homebrew/tarball/master | tar xz –strip 1 -C /usr/local
-
-export PATH=/usr/local/bin:$PATH
-</code></pre>
-
-<p>安装成功后通过<code>brew install</code>查看brew版本</p>
-
-<!--more-->
-
-
-<h3>安装ruby</h3>
-
-<pre><code>brew install rbenv
-brew install ruby-build
-rbenv install 1.9.3-p0
-rbenv rehash
-</code></pre>
-
-<h3>最后安装Octopress</h3>
-
-<pre><code>git clone git://github.com/imathis/octopress.git octopress
-
-cd octopress
-gem install bundler
-rbenv rehash
-bundle install
-rake install
-</code></pre>
-
-<h3>配置Octopress</h3>
-
-<p>编辑 <code>config.yml</code>文件的<code>url</code>,<code>title</code>,<code>subtitle</code>,<code>author</code>。</p>
-
-<p>最好把里面的twitter相关的信息全部删掉，否则由于GFW的原因，将会造成页面load很慢。同理，修改定制文件/source/_includes/custom/head.html 把google的自定义字体去掉。</p>
-
-<h3>安装支持新浪微博和Dribbble的Octopress的Greyshade主题</h3>
-
-<p>我现在用的就是greyshade主题</p>
-
-<pre><code> cd octopress
-
- git clone git@github.com:allenhsu/greyshade.git .themes/greyshade
-
- echo "\$greyshade: color;" &gt;&gt; sass/custom/_colors.scss //替换 color 为自定义的链接高亮颜色
-
- rake "install[greyshade]"
-</code></pre>
-
-<p>在_config.yml中加入</p>
-
-<pre><code>weibo_user: xsxiang # 微博数字 ID 或域名 ID
-dribbble_user: 
-weibo_share: true # 是否开启微博分享按钮
-</code></pre>
-
-<p>关于greyshade主题的头像问题，有两种途径可以设置头像</p>
-
-<ul>
-<li>在_config.yml文件中设置一个email，然后到gravatar网站上添加该email并上传一张头像</li>
-<li>将需要使用的图片放到/source/images下。然后把/source/_includes/header.html文件中的img替换成 《img alt=“Profile Picture” src=“/images/tx.png” style=“width:160px;”》</li>
-</ul>
-
-
-<h3>配置Disqus插件</h3>
-
-<p>Disqus是octopress内置的comments功能，编辑<code>config.yml</code>文件可以打开该功能，找到以下内容修改</p>
-
-<pre><code>#Disqus comments
-disqus_short_name: 
-disqus_show_comment_count: false
-</code></pre>
-
-<p>填入注册<a href="http://disqus.com">disqus</a>账号的名称，并将false修改为true。【disqus要和自己的username.github.com关联上】</p>
-
-<h2>2.配置github相关</h2>
-
-<h3>在本机创建ssh</h3>
-
-<pre><code>cd ~/.ssh
-ssh-keygen -t rsa -C 你注册github时的email
-</code></pre>
-
-<p>弹出<code>Enter file in which to save the key (/Users/twer/.ssh/id_rsa):</code>直接按空格</p>
-
-<p>弹出<code>Enter passphrase (empty for no passphrase):</code>输入你github账号的密码。<code>Enter same passphrase again:</code>再次输入你的密码。</p>
-
-<p>打开~/.ssh下的id_rsa.pub文件复制里面的全部内容。
-登陆github，选择Account Settings&mdash;>SSH Public Keys 添加ssh，把剪切板的内容复制到key输入框内直接保存。</p>
-
-<p>测试shh:</p>
-
-<pre><code>ssh git@github.com
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>PTY allocation request failed on channel 0
-Hi username! You've successfully authenticated, but GitHub does not provide shell access.
-Connection to github.com closed.
-</code></pre>
-
-<p>代表成功</p>
-
-<h3>建立一个仓库</h3>
-
-<p>登陆github<a href="https://github.com/new">创建一个仓库</a> ，仓库名称为username.github.com比如我的是sgxiang.github.com</p>
-
-<h2>3.部署博客到github</h2>
-
-<p>利用octopress的一个配置rake任务来自动配置上面创建的仓库：可以让我们方便的部署GitHub page。在终端输入如下命令：</p>
-
-<pre><code>rake setup_github_pages
-</code></pre>
-
-<p>弹出之后输入<code>git@github.com:your_username/your_username.github.com.git</code>不要用提示的io，我的是<code>git@github.com/sgxiang/sgxiang.github.com.git</code></p>
-
-<p><strong>输入以下命令部署博客</strong></p>
-
-<pre><code>rake generate
-rake deploy
-</code></pre>
-
-<p>如果无法push到仓库的master分支，尝试在项目目录的.git/config中添加</p>
-
-<pre><code>[branch "master"]
- remote = origin
- merge = refs/heads/master
-</code></pre>
-
-<p>博客的source需要单独提交，执行如下命令就可以将source提交到仓库的source分支下</p>
-
-<pre><code>git add .
-git commit -m 'Initial source commit'
-git push origin source
-</code></pre>
-
-<p>部署前可以在本地预览，输入<code>rake preview</code>之后在浏览器输入<code>http://localhost:4000/</code>来访问</p>
-
-<h2>4.写博客</h2>
-
-<p>通过命令</p>
-
-<pre><code>rake new_post["myTitle"]
-</code></pre>
-
-<p>文章生成在目录下的<code>source/_posts</code>目录下。文章是markdown格式的。可以通过 <a href="http://mouapp.com">Mou</a> 软件来编辑保存。</p>
-
-<p>关于markdown的格式可以参考这篇文章:<a href="http://wowubuntu.com/markdown/">http://wowubuntu.com/markdown/</a></p>
-
-<p>写完后就可以部署更新文章到github上了</p>
-
-<pre><code>rake generate
-git add .
-git commit -am "Some comment here." 
-git push origin source
-rake deploy
-</code></pre>
-
-<p><strong>参考文章</strong></p>
-
-<ul>
-<li><a href="http://m.blog.csdn.net/blog/duck_genuine/7736037">http://m.blog.csdn.net/blog/duck_genuine/7736037</a></li>
-<li><a href="http://www.imallen.com/blog/2013/10/16/deploying-octopress-to-qiniu.html">http://www.imallen.com/blog/2013/10/16/deploying-octopress-to-qiniu.html</a></li>
-<li><a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/</a></li>
-<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a></li>
-<li><a href="http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html">http://www.imallen.com/blog/2013/05/12/add-support-for-weibo-and-dribbble-to-greyshade.html</a></li>
-<li><a href="http://xautjzd.github.io/blog/2013/07/18/add-navigator/">http://xautjzd.github.io/blog/2013/07/18/add-navigator/</a></li>
-<li><a href="http://xautjzd.github.io/blog/2013/07/18/congfig-disqus-plugin/">http://xautjzd.github.io/blog/2013/07/18/congfig-disqus-plugin/</a></li>
-<li><a href="http://gilguan.github.io/blog/2013/10/16/zai-macshang-shi-yong-octopressda-jian-githubbo-ke/">http://gilguan.github.io/blog/2013/10/16/zai-macshang-shi-yong-octopressda-jian-githubbo-ke/</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
