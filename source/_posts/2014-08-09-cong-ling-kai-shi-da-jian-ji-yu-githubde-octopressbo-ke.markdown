@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "在Mac上从零开始搭建基于Github的Octopress博客"
-date: 2013-10-18 10:49
+date: 2014-08-09 10:49
 comments: true
 keywords: octopress,github,blog
 description: 通过网络几篇文章整理的mac平台上基于github的安装octopress大致全面的教程。
@@ -116,7 +116,7 @@ Disqus是octopress内置的comments功能，编辑`config.yml`文件可以打开
 
     rake setup_github_pages
     
-弹出之后输入`git@github.com:your_username/your_username.github.com.git`不要用提示的io，我的是`git@github.com/sgxiang/sgxiang.github.com.git`
+弹出之后输入`git@github.com:your_username/your_username.github.com.git`不要用提示的io，我的是`git@github.com:ikkyu0319/ikkyu0319.github.com.git`
 
 
 **输入以下命令部署博客**

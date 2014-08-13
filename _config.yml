@@ -2,13 +2,13 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://sgxiang.github.io
-title: Sgxiang
+url: http://ikkyu0319.github.io
+title: ShareSofa
 subtitle: Records of life.
-author: Sgxiang
-simple_search: http://google.com/search
-description: sgxiang的博客。关注技术与设计。记录生活点滴。
-keywords: oc,sgxiang,技术,设计,objc
+author: 一休
+simple_search: https://www.google.com/search
+description: 一休的博客。关注技术与设计；旅行和geek；记录生活点滴。
+keywords: oc,一休,旅行,java,git,obj，javascript
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -20,7 +20,7 @@ date_format: "ordinal"
 subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
-email: sgxiang1992@icloud.com
+email:
 
 # ----------------------- #
 #    Jekyll & Plugins     #
@@ -40,12 +40,13 @@ rdiscount:
     - autolink
     - footnotes
     - smart
-pygments: false # default python pygments have been replaced by pygments.rb
+highlighter: pygments # default python pygments have been replaced by pygments.rb
 
 paginate: 10          # Posts per page on the blog index
-pagination_dir: blog  # Directory base for pagination URLs eg. /blog/page/2/
+paginate_path: blog  # Directory base for pagination URLs eg. /posts/2/
 recent_posts: 5       # Posts in the sidebar Recent Posts section
 excerpt_link: "阅读全文"  # "Continue reading" link text at the bottom of excerpted articles
+# excerpt_separator: "<!--more-->"
 
 titlecase: true       # Converts page and post titles to titlecase
 
@@ -64,7 +65,7 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 
 # Github repositories
-github_user: sgxiang
+github_user: ikkyu0319
 github_repo_count: 2
 github_show_profile_link: true
 github_skip_forks: true
@@ -73,40 +74,39 @@ github_skip_forks: true
 # twitter_user:
 # twitter_tweet_button: true
 
-# Google +1
-google_plus_one: false
-google_plus_one_size: medium
+# # Google +1
+# google_plus_one: false
+# google_plus_one_size: medium
 
-# Google Plus Profile
-# Hidden: No visible button, just add author information to search results
-googleplus_user:
-googleplus_hidden: false
+# # Google Plus Profile
+# # Hidden: No visible button, just add author information to search results
+# googleplus_user:
+# googleplus_hidden: false
 
-# Pinboard
-pinboard_user:
-pinboard_count: 3
+# # Pinboard
+# pinboard_user:
+# pinboard_count: 3
 
-# Delicious
-delicious_user:
-delicious_count: 3
+# # Delicious
+# delicious_user:
+# delicious_count: 3
 
-# Disqus Comments
-disqus_short_name: 
-disqus_show_comment_count: 
+# # Disqus Comments
+# disqus_short_name: sharesofa
+# disqus_show_comment_count: true
 
 # duoshuo comments
 duoshuo_comments: true
-duoshuo_short_name: sgxiang
+duoshuo_short_name: sharesofa
 
 # Google Analytics
-google_analytics_tracking_id: UA-45650951-1
-
+google_analytics_tracking_id: UA-53673020-1
 
 # Facebook Like
 facebook_like: false
 
 
-#weibo
-weibo_user: xsxiang # 微博数字 ID 或域名 ID
-# dribbble_user: allenhsu
+#微博
+weibo_user: 606312789 # 微博数字 ID 或域名 ID
+# dribbble_user: 
 weibo_share: true # 是否开启微博分享按钮

@@ -3,15 +3,16 @@
 		<div class="date">{% include post/date.html %}{{ time }}</div>
 		<div class="tags">{% include post/categories.html %}</div>
 		{% if site.disqus_short_name and site.disqus_show_comment_count == true %}
-			<span class="comments"><a href="{{ root_url }}{{ post.url }}#disqus_thread">Comments</a></span>
+			<span class="comments"><a href="{{ root_url }}{{ post.url }}#disqus_thread">评论</a></span>
 		{% endif %}
 
 
+		<!--add 多说模块-->
 		{% if site.duoshuo_short_name and page.comments != false and post.comments != false and site.duoshuo_comments == true %}
 				<span class="comments"><a href="{{ root_url }}{{ post.url }}#comments">评论</a></span>
          {% endif %}
 
-
+         
 	</div>
 	<h1 class="title" itemprop="name"><a href="{{ root_url }}{{ post.url }}" itemprop="url">{% if site.titlecase %}{{ post.title | titlecase }}{% else %}{{ post.title }}{% endif %}</a></h1>
 	<div class="entry-content" itemprop="articleBody">
