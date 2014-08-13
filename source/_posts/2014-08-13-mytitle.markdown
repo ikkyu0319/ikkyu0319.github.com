@@ -1,7 +1,0 @@
----
-layout: post
-title: "myTitle"
-date: 2014-08-13 21:56:28 +0800
-comments: true
-categories: 
----
