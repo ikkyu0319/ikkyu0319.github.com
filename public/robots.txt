@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://ikkyu0319.github.io/sitemap.xml 
