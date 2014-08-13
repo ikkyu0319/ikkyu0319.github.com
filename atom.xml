@@ -4,7 +4,7 @@
   <title><![CDATA[ShareSofa]]></title>
   <link href="http://ikkyu0319.github.io/atom.xml" rel="self"/>
   <link href="http://ikkyu0319.github.io/"/>
-  <updated>2014-08-13T21:56:44+08:00</updated>
+  <updated>2014-08-13T23:11:37+08:00</updated>
   <id>http://ikkyu0319.github.io/</id>
   <author>
     <name><![CDATA[一休]]></name>
@@ -12,15 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[myTitle]]></title>
-    <link href="http://ikkyu0319.github.io/blog/2014/08/13/mytitle/"/>
-    <updated>2014-08-13T21:56:28+08:00</updated>
-    <id>http://ikkyu0319.github.io/blog/2014/08/13/mytitle</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[How To:升级Mac OS X上的GIT]]></title>
