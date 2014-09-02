@@ -109,7 +109,8 @@ Disqus是octopress内置的comments功能，编辑`config.yml`文件可以打开
     Connection to github.com closed.
 代表成功
 ###建立一个仓库
-登陆github[创建一个仓库](https://github.com/new) ，仓库名称为username.github.com比如我的是sgxiang.github.com
+登陆github[创建一个仓库](https://github.com/new) ，仓库名称为username.github.com比如我的是ikkyu0319.github.com
+
 
 ##3.部署博客到github
 利用octopress的一个配置rake任务来自动配置上面创建的仓库：可以让我们方便的部署GitHub page。在终端输入如下命令：

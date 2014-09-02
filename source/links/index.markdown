@@ -6,6 +6,13 @@ comments: true
 sharing: true
 footer: true
 ---
+###Android-blog
+* [Trinea](http://www.trinea.cn/)
+* [daimajia](https://github.com/daimajia)
+* [stormzhang](https://github.com/stormzhang)
+* [waylife](https://github.com/waylife)
+
+
 ###oc-blog
 * [I'm Allen][1]
 * [唐巧][2]
@@ -21,9 +28,6 @@ footer: true
 * [无网不剩](http://blog.leezhong.com)
 * [萧宸宇](http://iiiyu.com/categories/iOS/)
 
-###friend
-* [蜗牛都知道](http://binary.duapp.com)
-* [蓝飞技术部落格](http://www.clanfei.com)
 
 ###oc-website
 * [objc][4]
@@ -32,6 +36,10 @@ footer: true
 
 ###apple-developer
 * [Apple Developer] [6]
+
+###android-developer
+* [Android Developer] [7]
+
 
 
 ###Algorithm
@@ -44,3 +52,4 @@ footer: true
 [4]: http://www.objc.io "objc"
 [5]: http://github.ibireme.com/github/list/ios/ "github-ios"
 [6]: https://developer.apple.com/account/ios/certificate/certificateCreate.action "appleDeveloper"
+[7]:developer.android.com/index.html

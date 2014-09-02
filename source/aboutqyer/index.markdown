@@ -7,14 +7,17 @@ keywords: about,qyer
 sharing: true
 footer: true
 ---
-<br>        
-穷游网 ; 这是一个有意思的网站！！
+<br>     
 
 
+   
+[穷游网](www.qyer.com);  旅途，永无穷尽！
 
-旅途，永无穷尽！
+Jobs：
+    
+   * [Android 攻城狮](http://www.qyer.com/job/vacancies.html#pos92)
+    
+   * [IOS 攻城狮](http://www.qyer.com/job/vacancies.html#pos106)
 
 
-<br><br>
- 
 
